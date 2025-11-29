@@ -1,0 +1,150 @@
+00:00 +0: loading /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart                                                                                              lib/features/auth/providers/auth_provider.dart:1:1: Error: Expected a declaration, but got '`'.
+```dart
+^
+lib/features/auth/providers/auth_provider.dart:1:2: Error: Expected a declaration, but got '`'.
+```dart
+ ^
+lib/features/auth/providers/auth_provider.dart:1:3: Error: Expected a declaration, but got '`'.
+```dart
+  ^
+lib/features/auth/providers/auth_provider.dart:2:1: Error: Expected an identifier, but got 'import'.
+Try inserting an identifier before 'import'.
+import 'package:flutter/material.dart';
+^^^^^^
+lib/features/auth/providers/auth_provider.dart:1:4: Error: Expected ';' after this.
+```dart
+   ^^^^
+lib/features/auth/providers/auth_provider.dart:2:1: Error: Directives must appear before any declarations.
+Try moving the directive before any declarations.
+import 'package:flutter/material.dart';
+^^^^^^
+lib/features/auth/providers/auth_provider.dart:3:1: Error: Directives must appear before any declarations.
+Try moving the directive before any declarations.
+import 'package:shared_preferences/shared_preferences.dart';
+^^^^^^
+lib/features/auth/providers/auth_provider.dart:4:1: Error: Directives must appear before any declarations.
+Try moving the directive before any declarations.
+import '../../shared/models/models.dart';
+^^^^^^
+lib/features/auth/providers/auth_provider.dart:5:1: Error: Directives must appear before any declarations.
+Try moving the directive before any declarations.
+import '../../shared/services/api_service.dart';
+^^^^^^
+lib/features/auth/providers/auth_provider.dart:4:8: Error: Error when reading 'lib/features/shared/models/models.dart': No such file or directory
+import '../../shared/models/models.dart';
+       ^
+lib/features/auth/providers/auth_provider.dart:5:8: Error: Error when reading 'lib/features/shared/services/api_service.dart': No such file or directory
+import '../../shared/services/api_service.dart';
+       ^
+lib/features/auth/providers/auth_provider.dart:1:4: Error: Type 'dart' not found.
+```dart
+   ^^^^
+lib/features/auth/providers/auth_provider.dart:8:3: Error: Type 'User' not found.
+  User? _user;
+  ^^^^
+lib/features/auth/providers/auth_provider.dart:9:9: Error: Type 'ApiService' not found.
+  final ApiService _apiService = ApiService();
+        ^^^^^^^^^^
+lib/features/auth/providers/auth_provider.dart:11:3: Error: Type 'User' not found.
+  User? get user => _user;
+  ^^^^
+lib/features/auth/providers/auth_provider.dart:8:3: Error: 'User' isn't a type.
+  User? _user;
+  ^^^^
+lib/features/auth/providers/auth_provider.dart:9:9: Error: 'ApiService' isn't a type.
+  final ApiService _apiService = ApiService();
+        ^^^^^^^^^^
+lib/features/auth/providers/auth_provider.dart:9:34: Error: Method not found: 'ApiService'.
+  final ApiService _apiService = ApiService();
+                                 ^^^^^^^^^^
+lib/features/auth/providers/auth_provider.dart:22:15: Error: The method 'User' isn't defined for the class 'AuthProvider'.
+ - 'AuthProvider' is from 'package:mobile/features/auth/providers/auth_provider.dart' ('lib/features/auth/providers/auth_provider.dart').
+Try correcting the name to the name of an existing method, or defining a method named 'User'.
+      _user = User(
+              ^^^^
+lib/shared/services/api_service.dart:105:37: Error: The getter 'zipCode' isn't defined for the class 'Job'.
+ - 'Job' is from 'package:mobile/shared/models/models.dart' ('lib/shared/models/models.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'zipCode'.
+    request.fields['zipCode'] = job.zipCode ?? '';
+                                    ^^^^^^^
+lib/shared/services/api_service.dart:108:38: Error: The getter 'category' isn't defined for the class 'Job'.
+ - 'Job' is from 'package:mobile/shared/models/models.dart' ('lib/shared/models/models.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'category'.
+    request.fields['category'] = job.category ?? 'General';
+                                     ^^^^^^^^
+lib/shared/services/api_service.dart:109:13: Error: The getter 'tags' isn't defined for the class 'Job'.
+ - 'Job' is from 'package:mobile/shared/models/models.dart' ('lib/shared/models/models.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'tags'.
+    if (job.tags != null) {
+            ^^^^
+lib/shared/services/api_service.dart:110:36: Error: The getter 'tags' isn't defined for the class 'Job'.
+ - 'Job' is from 'package:mobile/shared/models/models.dart' ('lib/shared/models/models.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'tags'.
+      request.fields['tags'] = job.tags!.join(',');
+                                   ^^^^
+00:00 +0 -1: loading /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/widget_test.dart [E]                                                                                       
+  Failed to load "/Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/widget_test.dart": Compilation failed for testPath=/Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/widget_test.dart
+
+To run this test again: /Users/jeremiahdunphy/Public/SDKs/flutter/bin/cache/dart-sdk/bin/dart test /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/widget_test.dart -p vm --plain-name 'loading /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/widget_test.dart'
+00:00 +0 -2: loading /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart [E]                                                                                       
+  Error: the Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 10:3  throwToolExit
+  package:flutter_tools/src/compile.dart 896:9     DefaultResidentCompiler._compile.<fn>
+  dart:async/zone.dart 1407:47                     _rootRunUnary
+  dart:async/zone.dart 1308:19                     _CustomZone.runUnary
+  dart:async/future_impl.dart 838:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 867:13               Future._propagateToListeners
+  dart:async/future_impl.dart 763:9                Future._propagateToListeners
+  dart:async/future_impl.dart 643:5                Future._completeWithValue
+  dart:async/future_impl.dart 713:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone.dart 1399:13                     _rootRun
+  dart:async/zone.dart 1301:19                     _CustomZone.run
+  dart:async/zone.dart 1209:7                      _CustomZone.runGuarded
+  dart:async/zone.dart 1249:23                     _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:21         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 118:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 185:5      _RawReceivePort._handleMessage
+  
+
+To run this test again: /Users/jeremiahdunphy/Public/SDKs/flutter/bin/cache/dart-sdk/bin/dart test /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart -p vm --plain-name 'loading /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart'
+00:01 +0 -2: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart: User Model fromJson creates correct User object                                                  00:01 +1 -2: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart: User Model fromJson creates correct User object                                                  00:01 +1 -2: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart: Job Model fromJson creates correct Job object                                                    00:01 +2 -2: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart: Job Model fromJson creates correct Job object                                                    00:01 +2 -2: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart: Review Model fromJson creates correct Review object                                              00:01 +3 -2: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart: Review Model fromJson creates correct Review object                                              00:01 +3 -2: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart: AppNotification Model fromJson creates correct Notification object                               00:01 +4 -2: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart: AppNotification Model fromJson creates correct Notification object                               test/api_service_test.dart:11:8: Error: Error when reading 'test/api_service_test.mocks.dart': No such file or directory
+import 'api_service_test.mocks.dart';
+       ^
+test/api_service_test.dart:16:10: Error: 'MockClient' isn't a type.
+    late MockClient mockClient;
+         ^^^^^^^^^^
+test/api_service_test.dart:19:20: Error: Method not found: 'MockClient'.
+      mockClient = MockClient();
+                   ^^^^^^^^^^
+test/api_service_test.dart:78:22: Error: Required named parameter 'status' must be provided.
+      final job = Job(
+                     ^
+lib/shared/models/models.dart:36:3: Context: Found this candidate, but the arguments don't match.
+  Job({
+  ^^^
+lib/shared/services/api_service.dart:105:37: Error: The getter 'zipCode' isn't defined for the class 'Job'.
+ - 'Job' is from 'package:mobile/shared/models/models.dart' ('lib/shared/models/models.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'zipCode'.
+    request.fields['zipCode'] = job.zipCode ?? '';
+                                    ^^^^^^^
+lib/shared/services/api_service.dart:108:38: Error: The getter 'category' isn't defined for the class 'Job'.
+ - 'Job' is from 'package:mobile/shared/models/models.dart' ('lib/shared/models/models.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'category'.
+    request.fields['category'] = job.category ?? 'General';
+                                     ^^^^^^^^
+lib/shared/services/api_service.dart:109:13: Error: The getter 'tags' isn't defined for the class 'Job'.
+ - 'Job' is from 'package:mobile/shared/models/models.dart' ('lib/shared/models/models.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'tags'.
+    if (job.tags != null) {
+            ^^^^
+lib/shared/services/api_service.dart:110:36: Error: The getter 'tags' isn't defined for the class 'Job'.
+ - 'Job' is from 'package:mobile/shared/models/models.dart' ('lib/shared/models/models.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'tags'.
+      request.fields['tags'] = job.tags!.join(',');
+                                   ^^^^
+00:01 +4 -3: loading /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/api_service_test.dart [E]                                                                                  
+  Failed to load "/Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/api_service_test.dart": Compilation failed for testPath=/Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/api_service_test.dart
+
+To run this test again: /Users/jeremiahdunphy/Public/SDKs/flutter/bin/cache/dart-sdk/bin/dart test /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/api_service_test.dart -p vm --plain-name 'loading /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/api_service_test.dart'
+00:01 +4 -3: Some tests failed.                                                                                                                                                                        

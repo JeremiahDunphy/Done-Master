@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Done - Gig Marketplace</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Leaflet CSS for maps -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://js.stripe.com/v3/"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav id="navbar" class="navbar">
+    <div class="container navbar-content">
+      <div class="logo" onclick="showPage('landing')" style="cursor: pointer;">Done</div>
+      <div id="user-info" style="display: flex; align-items: center; gap: 1rem;">
+        <button id="theme-toggle" class="btn btn-secondary" onclick="toggleTheme()"
+          style="padding: 0.5rem; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">☀️</button>
+        <!-- Auth buttons will be injected here if logged in, otherwise: -->
+        <div id="auth-buttons">
+          <button onclick="showPage('login')" class="btn btn-outline" style="margin-right: 0.5rem;">Login</button>
+          <button onclick="showPage('register')" class="btn btn-primary">Sign Up</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Landing Page -->
+  <div id="landing-page" class="page">
+    <!-- Hero Section -->
+    <div class="container" style="padding-top: 6rem; padding-bottom: 4rem; text-align: center;">
+      <div class="hero-content fade-in-up">
+        <div class="badge badge-warning mb-md"
+          style="background: rgba(249, 203, 40, 0.1); color: var(--secondary); border: 1px solid rgba(249, 203, 40, 0.2);">
+          ✨ The Future of Work is Here
+        </div>
+        <h1 class="text-gradient" style="font-size: 5rem; margin-bottom: 1.5rem; line-height: 1.1;">
+          Get It Done.<br>
+          <span style="color: var(--text-primary); -webkit-text-fill-color: var(--text-primary);">Instantly.</span>
+        </h1>
+        <p class="text-muted" style="font-size: 1.25rem; max-width: 600px; margin: 0 auto 3rem; line-height: 1.8;">
+          The modern marketplace for gigs and tasks. Connect with elite providers or find your next high-paying job in
+          seconds.
+        </p>
+
+        <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 4rem;">
+          <button onclick="showPage('register')" class="btn btn-primary"
+            style="padding: 1rem 2.5rem; font-size: 1.1rem;">
+            Get Started Now
+          </button>
+          <button onclick="showPage('login')" class="btn btn-outline" style="padding: 1rem 2.5rem; font-size: 1.1rem;">
+            Login
+          </button>
+        </div>
+
+        <!-- App Store Buttons -->
+        <div class="app-downloads fade-in-up" style="animation-delay: 0.2s;">
+          <p class="text-muted mb-md" style="font-size: 0.9rem; letter-spacing: 0.05em; text-transform: uppercase;">
+            Available on Mobile</p>
+          <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <button class="btn btn-store">
+              <span style="font-size: 1.5rem; margin-right: 0.5rem;"></span>
+              <div style="text-align: left; line-height: 1.2;">
+                <div style="font-size: 0.75rem;">Download on the</div>
+                <div style="font-size: 1.1rem; font-weight: bold;">App Store</div>
+              </div>
+            </button>
+            <button class="btn btn-store">
+              <span style="font-size: 1.5rem; margin-right: 0.5rem;">▶</span>
+              <div style="text-align: left; line-height: 1.2;">
+                <div style="font-size: 0.75rem;">GET IT ON</div>
+                <div style="font-size: 1.1rem; font-weight: bold;">Google Play</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Section (Bento Grid) -->
+    <div class="container" style="padding: 6rem 1rem;">
+      <h2 class="text-center mb-xl">Why Choose Done?</h2>
+      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+        <!-- Feature 1 -->
+        <div class="card fade-in-up"
+          style="grid-column: span 2; background: linear-gradient(135deg, rgba(255, 77, 77, 0.1) 0%, rgba(0,0,0,0) 100%);">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🚀</div>
+          <h3>Instant Connections</h3>
+          <p class="text-muted">Our AI-powered matching algorithm connects you with the perfect provider or job in
+            milliseconds. No waiting, just doing.</p>
+        </div>
+        <!-- Feature 2 -->
+        <div class="card fade-in-up" style="animation-delay: 0.1s;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🛡️</div>
+          <h3>Secure Payments</h3>
+          <p class="text-muted">Your money is safe with our escrow system. Release funds only when the job is done to
+            your satisfaction.</p>
+        </div>
+        <!-- Feature 3 -->
+        <div class="card fade-in-up" style="animation-delay: 0.2s;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">📍</div>
+          <h3>Local & Global</h3>
+          <p class="text-muted">Find help right in your neighborhood or hire remote talent from anywhere in the world.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div
+      style="border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); background: rgba(255,255,255,0.02);">
+      <div class="container"
+        style="padding: 4rem 1rem; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 2rem; text-align: center;">
+        <div>
+          <div class="text-gradient" style="font-size: 3rem; font-weight: 800;">10k+</div>
+          <div class="text-muted">Active Jobs</div>
+        </div>
+        <div>
+          <div class="text-gradient" style="font-size: 3rem; font-weight: 800;">5k+</div>
+          <div class="text-muted">Verified Providers</div>
+        </div>
+        <div>
+          <div class="text-gradient" style="font-size: 3rem; font-weight: 800;">$2M+</div>
+          <div class="text-muted">Paid Out</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="padding: 4rem 0 2rem; border-top: 1px solid var(--border-light); margin-top: 4rem;">
+      <div class="container">
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 3rem; margin-bottom: 3rem;">
+          <div style="max-width: 300px;">
+            <div class="logo mb-md">Done</div>
+            <p class="text-muted">The world's most advanced marketplace for getting things done. Join the revolution
+              today.</p>
+          </div>
+          <div style="display: flex; gap: 4rem; flex-wrap: wrap;">
+            <div>
+              <h4 style="font-size: 1.1rem; margin-bottom: 1rem;">Platform</h4>
+              <ul style="list-style: none; color: var(--text-muted); line-height: 2;">
+                <li><a href="#" style="color: inherit; text-decoration: none;">Browse Jobs</a></li>
+                <li><a href="#" style="color: inherit; text-decoration: none;">Find Providers</a></li>
+                <li><a href="#" style="color: inherit; text-decoration: none;">Pricing</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 style="font-size: 1.1rem; margin-bottom: 1rem;">Company</h4>
+              <ul style="list-style: none; color: var(--text-muted); line-height: 2;">
+                <li><a href="#" style="color: inherit; text-decoration: none;">About Us</a></li>
+                <li><a href="#" style="color: inherit; text-decoration: none;">Careers</a></li>
+                <li><a href="#" style="color: inherit; text-decoration: none;">Blog</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 style="font-size: 1.1rem; margin-bottom: 1rem;">Legal</h4>
+              <ul style="list-style: none; color: var(--text-muted); line-height: 2;">
+                <li><a href="terms.html" style="color: inherit; text-decoration: none;">Terms of Service</a></li>
+                <li><a href="#" style="color: inherit; text-decoration: none;">Privacy Policy</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div
+          style="text-align: center; padding-top: 2rem; border-top: 1px solid var(--border-light); color: var(--text-muted); font-size: 0.9rem;">
+          &copy; 2026 Done Inc. All rights reserved.
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Login Page -->
+  <div id="login-page" class="page hidden">
+    <div class="container" style="max-width: 500px; padding-top: 5rem;">
+      <div class="card fade-in-up" style="text-align: center;">
+        <h1 class="text-gradient mb-xl">Done</h1>
+        <h2 class="mb-lg">Welcome Back</h2>
+
+        <form id="login-form">
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" id="login-email" class="form-input" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" id="login-password" class="form-input" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">
+            Login
+          </button>
+        </form>
+
+        <p class="text-muted mt-lg">
+          Don't have an account?
+          <a href="#" onclick="showPage('register'); return false;" style="color: var(--primary);">Register</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Register Page -->
+  <div id="register-page" class="page hidden">
+    <div class="container" style="max-width: 500px; padding-top: 3rem;">
+      <div class="card fade-in-up">
+        <h1 class="text-gradient text-center mb-md">Create Account</h1>
+
+        <form id="register-form">
+          <div class="form-group">
+            <label class="form-label">Name</label>
+            <input type="text" id="register-name" class="form-input" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" id="register-email" class="form-input" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" id="register-password" class="form-input" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">I am a...</label>
+            <select id="register-role" class="form-select" required>
+              <option value="CLIENT">Client (I post jobs)</option>
+              <option value="PROVIDER">Provider (I do jobs)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" id="register-terms" required>
+              <span>I agree to the <a href="#"
+                  onclick="event.preventDefault(); document.getElementById('terms-modal').style.display='flex'">Terms
+                  and Conditions</a></span>
+            </label>
+            <p class="text-muted" style="font-size: 0.8rem; margin-top: 0.5rem;">
+              Note: Done charges a 10% transaction fee on all completed jobs.
+            </p>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">
+            Register
+          </button>
+        </form>
+
+        <p class="text-muted text-center mt-lg">
+          Already have an account?
+          <a href="#" onclick="showPage('login'); return false;" style="color: var(--primary);">Login</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Home Page (Job Feed) -->
+  <div id="home-page" class="page hidden">
+    <div class="container" style="padding-top: 2rem; padding-bottom: 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <div>
+          <h1 class="mb-sm">Available Jobs</h1>
+          <p class="text-muted">Find your next gig</p>
+        </div>
+        <button id="create-job-btn" class="btn btn-primary" onclick="showPage('create-job')" style="display: none;">
+          + Create Job
+        </button>
+      </div>
+
+      <!-- Search and Filter Section -->
+      <div class="card mb-lg">
+        <!-- Category Chips -->
+        <div
+          style="display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 1rem; margin-bottom: 1rem; scrollbar-width: none;">
+          <button class="btn btn-outline category-chip active" onclick="filterByCategory('All')">All</button>
+          <button class="btn btn-outline category-chip" onclick="filterByCategory('Cleaning')">Cleaning</button>
+          <button class="btn btn-outline category-chip" onclick="filterByCategory('Handyman')">Handyman</button>
+          <button class="btn btn-outline category-chip" onclick="filterByCategory('Moving')">Moving</button>
+          <button class="category-chip" onclick="filterByCategory('Tech Help')">Tech Help</button>
+          <button class="category-chip" onclick="filterByCategory('Saved')">❤️ Saved</button>
+          <button class="btn btn-outline category-chip" onclick="filterByCategory('Gardening')">Gardening</button>
+          <button class="btn btn-outline category-chip" onclick="filterByCategory('Pet Care')">Pet Care</button>
+        </div>
+
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: end;">
+          <div class="form-group" style="flex: 1; min-width: 200px; margin: 0;">
+            <label class="form-label">Search by Zip Code</label>
+            <input type="text" id="search-zipcode" class="form-input" placeholder="Enter zip code..." maxlength="5">
+          </div>
+
+          <div class="form-group" style="flex: 1; min-width: 200px; margin: 0;">
+            <label class="form-label">Distance (miles)</label>
+            <select id="search-distance" class="form-select">
+              <option value="10">Within 10 miles</option>
+              <option value="25">Within 25 miles</option>
+              <option value="50" selected>Within 50 miles</option>
+              <option value="100">Within 100 miles</option>
+              <option value="999999">Any distance</option>
+            </select>
+          </div>
+
+          <button onclick="searchJobs()" class="btn btn-primary" style="height: fit-content;">
+            Search
+          </button>
+
+          <button onclick="toggleMapView()" id="map-toggle-btn" class="btn btn-secondary" style="height: fit-content;">
+            🗺️ Map View
+          </button>
+        </div>
+      </div>
+
+      <!-- Map Container (hidden by default) -->
+      <div id="map-container" class="card mb-lg" style="display: none; height: 500px; padding: 0; overflow: hidden;">
+        <div id="map" style="width: 100%; height: 100%;"></div>
+      </div>
+
+      <div id="jobs-grid" class="grid grid-2">
+        <div class="spinner" style="margin: 2rem auto;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Job Page -->
+  <div id="create-job-page" class="page hidden">
+    <div class="container" style="max-width: 700px; padding-top: 2rem; padding-bottom: 2rem;">
+      <div class="card fade-in-up">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+          <h2>Create New Job</h2>
+          <button class="btn btn-secondary" onclick="showPage('home')">← Back</button>
+        </div>
+
+        <form id="create-job-form">
+          <div class="form-group">
+            <label class="form-label">Job Title</label>
+            <input type="text" id="job-title" class="form-input" placeholder="e.g., Fix a leaking faucet" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea id="job-description" class="form-textarea" placeholder="Describe what needs to be done..."
+              required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select id="job-category" class="form-select" required>
+              <option value="General">General</option>
+              <option value="Cleaning">Cleaning</option>
+              <option value="Handyman">Handyman</option>
+              <option value="Moving">Moving</option>
+              <option value="Tech Help">Tech Help</option>
+              <option value="Gardening">Gardening</option>
+              <option value="Pet Care">Pet Care</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Price per Day ($)</label>
+            <input type="number" id="job-price" class="form-input" min="0" step="0.01" placeholder="e.g., 150 per day"
+              required>
+          </div>
+
+          <div class="form-group"
+            style="display: flex; align-items: center; gap: 1rem; background: rgba(255, 77, 77, 0.1); padding: 1rem; border-radius: 0.5rem; border: 1px solid rgba(255, 77, 77, 0.2);">
+            <div style="flex: 1;">
+              <label class="form-label" style="color: #ff4d4d; margin-bottom: 0.25rem;">⚡ Flash Mode (Urgent)</label>
+              <p class="text-muted" style="font-size: 0.85rem; margin: 0;">Broadcast to nearby pros immediately. +20%
+                surcharge.</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="job-urgent">
+              <span class="slider round"></span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Photos (up to 5)</label>
+            <input type="file" id="job-photos" class="form-input" accept="image/*" multiple style="padding: 0.5rem;">
+            <div id="photo-preview" class="mt-md" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Zip Code</label>
+            <input type="text" id="job-zipcode" class="form-input" placeholder="e.g., 94102" pattern="[0-9]{5}"
+              maxlength="5" required>
+            <p class="text-muted" style="font-size: 0.875rem; margin-top: 0.25rem;">Enter 5-digit US zip code</p>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">
+            Create Job
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Page -->
+  <div id="profile-page" class="page hidden">
+    <div class="container" style="max-width: 800px; padding-top: 2rem;">
+      <div class="card fade-in-up">
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <div style="position: relative; width: 120px; height: 120px; margin: 0 auto 1rem;">
+            <div
+              style="width: 100%; height: 100%; background: var(--bg-tertiary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--text-muted); overflow: hidden; border: 2px solid var(--primary);">
+              <img id="profile-image-display" src="" alt="Profile"
+                style="width: 100%; height: 100%; object-fit: cover; display: none;">
+              <span id="profile-initials">👤</span>
+            </div>
+            <button type="button" onclick="document.getElementById('profile-upload').click()" class="btn btn-primary"
+              style="position: absolute; bottom: 0; right: 0; padding: 0.5rem; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">📷</button>
+            <input type="file" id="profile-upload" accept="image/*" style="display: none;"
+              onchange="handleProfileImageUpload(this)">
+          </div>
+          <h2 id="profile-name">User Name</h2>
+          <div id="profile-badges" style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 0.5rem;">
+          </div>
+          <p id="profile-email" class="text-muted">user@example.com</p>
+          <span id="profile-role" class="badge mt-sm">ROLE</span>
+        </div>
+
+        <form id="profile-form">
+          <div class="form-group">
+            <label class="form-label">Bio</label>
+            <textarea id="profile-bio" class="form-textarea" placeholder="Tell us about yourself..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Skills (comma separated)</label>
+            <input type="text" id="profile-skills" class="form-input" placeholder="e.g., Plumbing, Electrical, Moving">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Hourly Rate ($)</label>
+            <input type="number" id="profile-rate" class="form-input" placeholder="0.00">
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Save Profile</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  </div>
+
+  <!-- Chat Page -->
+  <div id="chat-page" class="page hidden">
+    <div class="container" style="padding-top: 2rem; height: calc(100vh - 80px);">
+      <div class="card" style="height: 100%; display: flex; padding: 0; overflow: hidden;">
+        <!-- Conversation List -->
+        <div id="conversation-list"
+          style="width: 300px; border-right: 1px solid var(--border-light); overflow-y: auto; background: rgba(0,0,0,0.2);">
+          <div style="padding: 1rem; border-bottom: 1px solid var(--border-light);">
+            <h3>Messages</h3>
+          </div>
+          <div id="conversations-container">
+            <!-- Conversations will be loaded here -->
+          </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div style="flex: 1; display: flex; flex-direction: column;">
+          <div id="chat-header"
+            style="padding: 1rem; border-bottom: 1px solid var(--border-light); display: flex; align-items: center; gap: 1rem;">
+            <div
+              style="width: 40px; height: 40px; background: var(--bg-tertiary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+              👤</div>
+            <h3 id="chat-user-name">Select a conversation</h3>
+          </div>
+
+          <div id="messages-container"
+            style="flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+            <!-- Messages will appear here -->
+          </div>
+
+          <form id="chat-form"
+            style="padding: 1rem; border-top: 1px solid var(--border-light); display: flex; gap: 1rem;">
+            <input type="text" id="message-input" class="form-input" placeholder="Type a message..." disabled>
+            <button type="submit" class="btn btn-primary" disabled>Send</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terms Modal -->
+  <div id="terms-modal"
+    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 3000; align-items: center; justify-content: center;">
+    <div class="card"
+      style="width: 90%; max-width: 800px; height: 80vh; display: flex; flex-direction: column; padding: 0; overflow: hidden;">
+      <div
+        style="padding: 1.5rem; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="margin: 0;">Terms and Conditions</h2>
+        <button onclick="document.getElementById('terms-modal').style.display='none'"
+          style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      </div>
+      <div style="flex: 1; overflow-y: auto; padding: 1.5rem; background: var(--bg-primary);">
+        <iframe src="terms.html"
+          style="width: 100%; height: 100%; border: none; background: var(--bg-primary);"></iframe>
+      </div>
+      <div
+        style="padding: 1.5rem; border-top: 1px solid var(--border-light); display: flex; justify-content: flex-end; gap: 1rem;">
+        <button class="btn btn-outline"
+          onclick="document.getElementById('terms-modal').style.display='none'">Cancel</button>
+        <button class="btn btn-primary" onclick="window.acceptTerms()">I Agree</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS for maps -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Socket.io -->
+  <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+
+</html>

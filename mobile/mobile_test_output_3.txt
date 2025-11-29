@@ -1,0 +1,44 @@
+00:00 +0: loading /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart                                                                                              00:01 +0: loading /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart                                                                                              00:01 +0: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart: User Model fromJson creates correct User object                                                     00:01 +1: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart: User Model fromJson creates correct User object                                                     00:01 +1: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart: Job Model fromJson creates correct Job object                                                       00:01 +2: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart: Job Model fromJson creates correct Job object                                                       00:01 +2: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart: Review Model fromJson creates correct Review object                                                 00:01 +3: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart: Review Model fromJson creates correct Review object                                                 00:01 +3: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart: AppNotification Model fromJson creates correct Notification object                                  00:01 +4: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/models_test.dart: AppNotification Model fromJson creates correct Notification object                                  00:01 +4: loading /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/widget_test.dart                                                                                              00:01 +4: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/widget_test.dart: LoginScreen renders correctly                                                                       00:01 +4 -1: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/api_service_test.dart: ApiService login returns User on success [E]                                                
+  Exception: Invalid credentials
+  package:mobile/shared/services/api_service.dart 50:7  ApiService.login
+  
+
+To run this test again: /Users/jeremiahdunphy/Public/SDKs/flutter/bin/cache/dart-sdk/bin/dart test /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/api_service_test.dart -p vm --plain-name 'ApiService login returns User on success'
+00:01 +5 -1: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/widget_test.dart: LoginScreen renders correctly                                                                    00:01 +6 -1: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/widget_test.dart: LoginScreen renders correctly                                                                    00:01 +7 -1: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/widget_test.dart: LoginScreen renders correctly                                                                    00:01 +7 -2: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/api_service_test.dart: ApiService getNotifications returns list [E]                                                
+  Exception: Invalid credentials
+  package:mobile/shared/services/api_service.dart 50:7  ApiService.login
+  
+
+To run this test again: /Users/jeremiahdunphy/Public/SDKs/flutter/bin/cache/dart-sdk/bin/dart test /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/api_service_test.dart -p vm --plain-name 'ApiService getNotifications returns list'
+00:01 +8 -2: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/widget_test.dart: LoginScreen renders correctly                                                                    00:02 +8 -2: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/widget_test.dart: LoginScreen renders correctly                                                                    00:02 +8 -2: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/widget_test.dart: LoginScreen renders correctly                                                                    
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 2 widgets with text "Login": [
+            Text("Login", dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery]),
+            Text("Login", dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery]),
+          ]>
+   Which: is too many
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/widget_test.dart:29:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:183:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1017:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/widget_test.dart line 29
+The test description was:
+  LoginScreen renders correctly
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:02 +8 -3: /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/widget_test.dart: LoginScreen renders correctly [E]                                                                
+  Test failed. See exception logs above.
+  The test description was: LoginScreen renders correctly
+  
+
+To run this test again: /Users/jeremiahdunphy/Public/SDKs/flutter/bin/cache/dart-sdk/bin/dart test /Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/mobile/test/widget_test.dart -p vm --plain-name 'LoginScreen renders correctly'
+00:02 +8 -3: Some tests failed.                                                                                                                                                                        

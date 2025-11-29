@@ -1,0 +1,172 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CLIENT
+  PROVIDER
+}
+
+enum JobStatus {
+  OPEN
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum ApplicationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String?
+  role      Role
+  latitude  Float?
+  longitude Float?
+  bio       String?
+  skills    String? // Comma separated skills
+  hourlyRate Float?
+  profileImage String?
+  isElite    Boolean  @default(false)
+  jobsCompleted Int   @default(0)
+  averageRating Float @default(0.0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  postedJobs   Job[]         @relation("PostedJobs")
+  providerJobs    Job[]     @relation("ProviderJobs")
+  sentMessages     Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
+  writtenReviews  Review[]  @relation("WrittenReviews")
+  receivedReviews Review[]  @relation("ReceivedReviews")
+  savedJobs       SavedJob[]
+  notifications   Notification[]
+  sentTransactions     Transaction[] @relation("SentTransactions")
+  receivedTransactions Transaction[] @relation("ReceivedTransactions")
+  applications    Application[]
+}
+
+model Job {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String
+  price       Float
+  zipCode     String
+  category    String?   @default("General")
+  tags        String?   // Comma separated tags
+  isUrgent    Boolean   @default(false)
+  latitude    Float
+  longitude   Float
+  status      String @default("OPEN") // OPEN, IN_PROGRESS, COMPLETED, PAID
+  photos      String?  // Comma-separated URLs (SQLite doesn't support arrays)
+  scheduledDate DateTime?
+  paymentIntentId String?
+  paidAt      DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  clientId Int
+  client   User @relation("PostedJobs", fields: [clientId], references: [id])
+
+  providerId  Int?
+  provider    User?    @relation("ProviderJobs", fields: [providerId], references: [id])
+  reviews     Review[]
+  savedBy     SavedJob[]
+
+  applications Application[]
+  transactions Transaction[]
+}
+
+model Review {
+  id          Int      @id @default(autoincrement())
+  rating      Int
+  comment     String
+  createdAt   DateTime @default(now())
+  
+  jobId       Int
+  job         Job      @relation(fields: [jobId], references: [id])
+  
+  reviewerId  Int
+  reviewer    User     @relation("WrittenReviews", fields: [reviewerId], references: [id])
+  
+  revieweeId  Int
+  reviewee    User     @relation("ReceivedReviews", fields: [revieweeId], references: [id])
+}
+
+model SavedJob {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  jobId     Int
+  job       Job      @relation(fields: [jobId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, jobId])
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  message   String
+  type      String   // INFO, SUCCESS, WARNING, ERROR
+  read      Boolean  @default(false)
+  relatedId Int?     // ID of related entity (Job, Application, etc.)
+  createdAt DateTime @default(now())
+}
+
+model Application {
+  id        Int               @id @default(autoincrement())
+  status    ApplicationStatus @default(PENDING)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  jobId Int
+  job   Job @relation(fields: [jobId], references: [id])
+
+  providerId Int
+  provider   User @relation(fields: [providerId], references: [id])
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+
+  senderId Int
+  sender   User @relation("SentMessages", fields: [senderId], references: [id])
+
+  receiverId Int
+  receiver   User @relation("ReceivedMessages", fields: [receiverId], references: [id])
+}
+
+model Transaction {
+  id        Int      @id @default(autoincrement())
+  amount    Float
+  platformFee Float // 10% cut
+  providerAmount Float // 90% to provider
+  status    String   @default("COMPLETED") // For mock purposes
+  createdAt DateTime @default(now())
+
+  jobId     Int
+  job       Job      @relation(fields: [jobId], references: [id])
+
+  payerId   Int
+  payer     User     @relation("SentTransactions", fields: [payerId], references: [id])
+
+  payeeId   Int
+  payee     User     @relation("ReceivedTransactions", fields: [payeeId], references: [id])
+}

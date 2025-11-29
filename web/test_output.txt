@@ -1,0 +1,64 @@
+
+> web@1.0.0 test
+> NODE_OPTIONS=--experimental-vm-modules jest
+
+(node:42085) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+FAIL tests/jobs.test.js
+  ● jobs.service.js › createJob sends isUrgent flag
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "true"
+    Received: true
+
+      35 |         // Verify FormData content
+      36 |         const formData = global.fetch.mock.calls[0][1].body;
+    > 37 |         expect(formData.get('isUrgent')).toBe('true'); // FormData values are strings
+         |                                          ^
+      38 |         expect(formData.get('title')).toBe('Test Job');
+      39 |         expect(formData.get('clientId')).toBe('123'); // FormData values are strings
+      40 |     });
+
+      at Object.<anonymous> (tests/jobs.test.js:37:42)
+
+PASS tests/profile.test.js
+  ● Console
+
+    console.error
+      Failed to load reviews ReferenceError: You are trying to `import` a file outside of the scope of the test code.
+          at Runtime.linkAndEvaluateModule (/Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/web/node_modules/jest-runtime/build/index.js:677:13)
+          at importModuleDynamically (/Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/web/node_modules/jest-runtime/build/index.js:528:27)
+          at importModuleDynamicallyWrapper (node:internal/vm/module:434:15)
+          at loadUserReviews (/Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/web/js/features/profile/profile.ui.js:43:36)
+
+      74 |         `;
+      75 |     } catch (e) {
+    > 76 |         console.error('Failed to load reviews', e);
+         |                 ^
+      77 |     }
+      78 | }
+      79 |
+
+      at loadUserReviews (js/features/profile/profile.ui.js:76:17)
+
+    console.error
+      Failed to load reviews TypeError: reviews.map is not a function
+          at loadUserReviews (/Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/web/js/features/profile/profile.ui.js:64:27)
+
+      74 |         `;
+      75 |     } catch (e) {
+    > 76 |         console.error('Failed to load reviews', e);
+         |                 ^
+      77 |     }
+      78 | }
+      79 |
+
+      at loadUserReviews (js/features/profile/profile.ui.js:76:17)
+
+
+Test Suites: 1 failed, 1 passed, 2 total
+Tests:       1 failed, 2 passed, 3 total
+Snapshots:   0 total
+Time:        0.418 s, estimated 1 s
+Ran all test suites.
