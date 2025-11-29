@@ -26,7 +26,7 @@ void main() {
         headers: anyNamed('headers'),
         body: anyNamed('body'),
       )).thenAnswer((_) async => http.Response(
-          jsonEncode({'id': 1, 'email': 'test@test.com', 'name': 'Test', 'role': 'CLIENT'}), 200));
+          jsonEncode({'id': 1, 'email': 'test@test.com', 'name': 'Test', 'role': 'POSTER'}), 200));
 
       final user = await apiService.login('test@test.com', 'password');
       expect(user, isNotNull);
@@ -45,7 +45,9 @@ void main() {
               'longitude': 0.0,
               'status': 'OPEN',
               'clientId': 1,
-              'photos': 'url1'
+              'photos': 'url1',
+              'category': 'General',
+              'createdAt': DateTime.now().toIso8601String()
             }
           ]),
           200));
@@ -68,7 +70,9 @@ void main() {
         'status': 'OPEN',
         'clientId': 1,
         'photos': 'url1',
-        'isUrgent': false
+        'isUrgent': false,
+        'category': 'General',
+        'createdAt': DateTime.now().toIso8601String()
       })));
       
       when(mockClient.send(any)).thenAnswer((_) async => http.StreamedResponse(
@@ -82,9 +86,11 @@ void main() {
         price: 100.0,
         latitude: 0.0,
         longitude: 0.0,
-        clientId: 1,
+        posterId: 1,
         photos: [],
         isUrgent: false,
+        category: 'General',
+        zipCode: '12345',
       );
       expect(createdJob.title, 'New Job');
     });
@@ -112,7 +118,7 @@ void main() {
         headers: anyNamed('headers'),
         body: anyNamed('body'),
       )).thenAnswer((_) async => http.Response(
-          jsonEncode({'id': 1, 'email': 'test@test.com', 'name': 'Test', 'role': 'CLIENT'}), 200));
+          jsonEncode({'id': 1, 'email': 'test@test.com', 'name': 'Test', 'role': 'POSTER'}), 200));
       
       await apiService.login('test@test.com', 'password');
 
@@ -135,7 +141,91 @@ void main() {
       )).thenAnswer((_) async => http.Response('{}', 200));
 
       await apiService.applyForJob(1, 2);
-      // If no exception, it passed
+    });
+
+    test('updateJobStatus sends patch request', () async {
+      when(mockClient.patch(
+        Uri.parse('${ApiService.baseUrl}/jobs/1/status'),
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenAnswer((_) async => http.Response('{}', 200));
+
+      await apiService.updateJobStatus(1, 'IN_PROGRESS');
+    });
+
+    test('createReview sends post request', () async {
+      // Ensure logged in
+      when(mockClient.post(
+        Uri.parse('${ApiService.baseUrl}/auth/login'),
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenAnswer((_) async => http.Response(
+          jsonEncode({'id': 1, 'email': 'test@test.com', 'name': 'Test', 'role': 'POSTER'}), 200));
+      await apiService.login('test@test.com', 'password');
+
+      when(mockClient.post(
+        Uri.parse('${ApiService.baseUrl}/reviews'),
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenAnswer((_) async => http.Response('{}', 200));
+
+      await apiService.createReview(1, 2, 5, 'Great');
+    });
+
+    test('getUserReviews returns list', () async {
+      when(mockClient.get(Uri.parse('${ApiService.baseUrl}/users/1/reviews')))
+          .thenAnswer((_) async => http.Response(
+          jsonEncode([
+            {'id': 1, 'jobId': 1, 'reviewerId': 2, 'revieweeId': 1, 'rating': 5, 'comment': 'Good', 'createdAt': DateTime.now().toIso8601String()}
+          ]), 200));
+
+      final reviews = await apiService.getUserReviews(1);
+      expect(reviews.length, 1);
+      expect(reviews.first.rating, 5);
+    });
+
+    test('toggleSaveJob sends post request', () async {
+      // Ensure logged in
+      when(mockClient.post(
+        Uri.parse('${ApiService.baseUrl}/auth/login'),
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenAnswer((_) async => http.Response(
+          jsonEncode({'id': 1, 'email': 'test@test.com', 'name': 'Test', 'role': 'POSTER'}), 200));
+      await apiService.login('test@test.com', 'password');
+
+      when(mockClient.post(
+        Uri.parse('${ApiService.baseUrl}/saved-jobs'),
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenAnswer((_) async => http.Response('{}', 200));
+
+      await apiService.toggleSaveJob(1);
+    });
+
+    test('getSavedJobIds returns list', () async {
+      // Ensure logged in
+      when(mockClient.post(
+        Uri.parse('${ApiService.baseUrl}/auth/login'),
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenAnswer((_) async => http.Response(
+          jsonEncode({'id': 1, 'email': 'test@test.com', 'name': 'Test', 'role': 'POSTER'}), 200));
+      await apiService.login('test@test.com', 'password');
+
+      when(mockClient.get(Uri.parse('${ApiService.baseUrl}/saved-jobs/1')))
+          .thenAnswer((_) async => http.Response('[1, 2, 3]', 200));
+
+      final ids = await apiService.getSavedJobIds();
+      expect(ids.length, 3);
+      expect(ids.first, 1);
+    });
+
+    test('markNotificationRead sends post request', () async {
+      when(mockClient.post(Uri.parse('${ApiService.baseUrl}/notifications/1/read')))
+          .thenAnswer((_) async => http.Response('{}', 200));
+
+      await apiService.markNotificationRead(1);
     });
   });
 }

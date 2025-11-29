@@ -1,6 +1,8 @@
 import { initTheme, toggleTheme } from './shared/theme.js';
 import { loadUser, state } from './shared/state.js';
-import { showPage, renderPage } from './shared/router.js';
+import { showPage, renderPage, handleLogoClick } from './shared/router.js';
+window.showPage = showPage;
+window.appHandleLogoClick = handleLogoClick;
 import { initAuth } from './features/auth/auth.ui.js';
 import { initJobs, loadJobs } from './features/jobs/jobs.ui.js';
 import { initMap } from './features/jobs/map.ui.js';
@@ -53,9 +55,19 @@ window.addEventListener('popstate', (event) => {
         }
         loadJobs();
 
-        if (state.currentUser && state.currentUser.role === 'CLIENT') {
+        document.getElementById('bottom-nav').style.display = 'flex';
+        document.getElementById('navbar').style.display = 'none'; // Hide top navbar on mobile/app view if preferred, or keep both. 
+        // For this design, let's keep top navbar for Logo/Theme but maybe hide auth buttons?
+        // Actually, let's just show bottom nav.
+
+        if (state.currentUser && state.currentUser.role === 'POSTER') {
             const btn = document.getElementById('create-job-btn');
             if (btn) btn.style.display = 'block';
+            const navBtn = document.getElementById('nav-create-job');
+            if (navBtn) navBtn.style.display = 'flex';
+        } else {
+            const navBtn = document.getElementById('nav-create-job');
+            if (navBtn) navBtn.style.display = 'none';
         }
     } else {
         if (initialPage === 'home' || initialPage === 'create-job' || initialPage === 'chat' || initialPage === 'profile') {

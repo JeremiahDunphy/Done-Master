@@ -8,13 +8,13 @@ void main() {
         'id': 1,
         'email': 'test@example.com',
         'name': 'Test User',
-        'role': 'CLIENT'
+        'role': 'POSTER'
       };
       final user = User.fromJson(json);
       expect(user.id, 1);
       expect(user.email, 'test@example.com');
       expect(user.name, 'Test User');
-      expect(user.role, 'CLIENT');
+      expect(user.role, 'POSTER');
     });
   });
 
@@ -29,7 +29,9 @@ void main() {
         'longitude': -122.4194,
         'status': 'OPEN',
         'photos': 'url1,url2',
-        'clientId': 1
+        'clientId': 1,
+        'category': 'General',
+        'createdAt': DateTime.now().toIso8601String()
       };
       final job = Job.fromJson(json);
       expect(job.id, 101);

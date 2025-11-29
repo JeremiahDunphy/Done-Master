@@ -1,9 +1,8 @@
-```
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../auth/providers/auth_provider.dart';
-import '../../shared/services/api_service.dart';
-import '../../shared/models/models.dart';
+import '../../../shared/services/api_service.dart';
+import '../../../shared/models/models.dart';
 import 'create_job_screen.dart';
 import 'job_details_screen.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -22,32 +21,36 @@ class JobsScreen extends StatefulWidget {
 }
 
 class _JobsScreenState extends State<JobsScreen> {
-  final ApiService _apiService = ApiService();
+  late ApiService _apiService;
   List<Job> _allJobs = [];
   List<Job> _filteredJobs = [];
   List<int> _savedJobIds = [];
   final MapController _mapController = MapController();
   bool _isLoading = true;
-  bool _isMapView = false;
-  double _searchRadius = 50; // miles
+  bool _showMap = false;
+  double _searchDistance = 50; // miles
   final TextEditingController _zipController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _loadJobs();
-    _loadSavedJobs();
+    // Defer loading until dependencies are available
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _apiService = Provider.of<ApiService>(context, listen: false);
+      _loadJobs();
+      _loadSavedJobs();
+    });
   }
 
   Future<void> _loadSavedJobs() async {
-    final ids = await Provider.of<ApiService>(context, listen: false).getSavedJobIds();
+    final ids = await _apiService.getSavedJobIds();
     setState(() {
       _savedJobIds = ids;
     });
   }
 
   Future<void> _toggleSave(int jobId) async {
-    await Provider.of<ApiService>(context, listen: false).toggleSaveJob(jobId);
+    await _apiService.toggleSaveJob(jobId);
     _loadSavedJobs();
   }
 
@@ -88,7 +91,7 @@ class _JobsScreenState extends State<JobsScreen> {
           final jobDist = distance.as(
             LengthUnit.Mile,
             LatLng(searchLat, searchLon),
-            LatLng(job.latitude, job.longitude),
+            LatLng(job.latitude ?? 0.0, job.longitude ?? 0.0),
           );
           return jobDist <= _searchDistance;
         }).toList();
@@ -220,7 +223,7 @@ class _JobsScreenState extends State<JobsScreen> {
                           ),
                           MarkerLayer(
                             markers: _filteredJobs.map((job) => Marker(
-                              point: LatLng(job.latitude, job.longitude),
+                              point: LatLng(job.latitude ?? 0.0, job.longitude ?? 0.0),
                               width: 80,
                               height: 80,
                               child: GestureDetector(
@@ -285,7 +288,7 @@ class _JobsScreenState extends State<JobsScreen> {
                                             style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
                                       ],
                                     ),
-                                    trailing: user?.role == 'PROVIDER'
+                                    trailing: user?.role == 'DOER'
                                         ? ElevatedButton(
                                             onPressed: () => _applyForJob(job),
                                             child: const Text('Apply'),
@@ -302,7 +305,7 @@ class _JobsScreenState extends State<JobsScreen> {
           ),
         ],
       ),
-      floatingActionButton: user?.role == 'CLIENT' && !_showMap
+      floatingActionButton: user?.role == 'POSTER' && !_showMap
           ? FloatingActionButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/create-job').then((_) => _loadJobs());

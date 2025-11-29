@@ -15,7 +15,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _nameController = TextEditingController();
-  String _role = 'CLIENT';
+  String _role = 'POSTER';
   bool _isLoading = false;
   bool _termsAccepted = false;
 
@@ -95,8 +95,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   border: OutlineInputBorder(),
                 ),
                 items: const [
-                  DropdownMenuItem(value: 'CLIENT', child: Text('Client')),
-                  DropdownMenuItem(value: 'PROVIDER', child: Text('Provider')),
+                  DropdownMenuItem(value: 'POSTER', child: Text('Poster')),
+                  DropdownMenuItem(value: 'DOER', child: Text('Doer')),
                 ],
                 onChanged: (value) {
                   setState(() => _role = value!);

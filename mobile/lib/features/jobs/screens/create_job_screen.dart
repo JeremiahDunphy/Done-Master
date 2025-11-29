@@ -2,9 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../auth/providers/auth_provider.dart';
-import '../../shared/services/api_service.dart';
+import '../../../shared/services/api_service.dart';
 import 'package:image_picker/image_picker.dart';
-import '../providers/auth_provider.dart';
 
 class CreateJobScreen extends StatefulWidget {
   const CreateJobScreen({super.key});
@@ -18,16 +17,21 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
   final _descriptionController = TextEditingController();
   final _priceController = TextEditingController();
   final _zipController = TextEditingController();
-  final ApiService _apiService = ApiService();
-  final ImagePicker _picker = ImagePicker();
+  late ApiService _apiService;
+  // final ImagePicker _picker = ImagePicker();
   
   List<File> _photos = [];
   bool _isLoading = false;
   double? _price;
   DateTime? _scheduledDate;
-  DateTime? _scheduledDate;
   File? _image;
   bool _isUrgent = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _apiService = Provider.of<ApiService>(context, listen: false);
+  }
 
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
@@ -51,12 +55,14 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
       return;
     }
     
+    /*
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       setState(() {
         _photos.add(File(image.path));
       });
     }
+    */
   }
 
   Future<void> _createJob() async {
@@ -83,7 +89,7 @@ class _CreateJobScreenState extends State<CreateJobScreen> {
         price: double.parse(_priceController.text),
         latitude: coords['latitude']!,
         longitude: coords['longitude']!,
-        clientId: user.id,
+        posterId: user.id,
         photos: _photos,
         zipCode: _zipController.text,
         isUrgent: _isUrgent,

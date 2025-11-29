@@ -2,12 +2,17 @@ import { API_BASE_URL } from './config.js';
 
 export async function apiCall(endpoint, options = {}) {
     try {
+        const headers = {
+            ...options.headers,
+        };
+
+        if (!(options.body instanceof FormData)) {
+            headers['Content-Type'] = 'application/json';
+        }
+
         const response = await fetch(`${API_BASE_URL}${endpoint}`, {
             ...options,
-            headers: {
-                'Content-Type': 'application/json',
-                ...options.headers,
-            },
+            headers,
         });
 
         if (!response.ok) {

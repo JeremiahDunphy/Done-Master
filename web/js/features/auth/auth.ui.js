@@ -31,25 +31,33 @@ export function initAuth() {
 
     document.getElementById('register-form').addEventListener('submit', async (e) => {
         e.preventDefault();
-
-        const termsAccepted = document.getElementById('register-terms').checked;
-        if (!termsAccepted) {
-            showMessage('Please accept the Terms and Conditions to continue.');
-            return;
-        }
+        console.log('Register form submitted');
+        window.authSuccess = false;
+        window.lastAuthError = null;
 
         const name = document.getElementById('register-name').value;
         const email = document.getElementById('register-email').value;
         const password = document.getElementById('register-password').value;
-        const role = document.getElementById('register-role').value;
+        const role = document.getElementById('reg-role').value;
+        const terms = document.getElementById('register-terms').checked;
+
+        if (!terms) {
+            showMessage('Please accept the Terms and Conditions');
+            return;
+        }
 
         try {
+            console.log('Calling register API...');
             await register(email, password, name, role);
+            console.log('Registration successful');
+            window.authSuccess = true;
             showPage('home');
             loadJobs();
             showMessage('Registration successful!', 'success');
         } catch (error) {
-            showMessage('Registration failed. Email may already exist.');
+            console.error('Registration error:', error);
+            window.lastAuthError = error.message || error;
+            showMessage('Registration failed: ' + (error.message || 'Unknown error'));
         }
     });
 }

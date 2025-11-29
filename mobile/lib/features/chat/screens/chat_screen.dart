@@ -27,7 +27,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    _chatService = ChatService(widget.apiService);
+    _chatService = ChatService();
     _chatService.connect(widget.apiService.user!.id);
     _loadMessages();
     

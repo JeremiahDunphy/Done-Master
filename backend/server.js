@@ -20,7 +20,10 @@ const io = new Server(server, {
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // Prisma 7 reads DATABASE_URL from prisma.config.ts automatically
+// Prisma 7 reads DATABASE_URL from prisma.config.ts automatically
+console.log('DATABASE_URL:', process.env.DATABASE_URL);
 const prisma = new PrismaClient();
+
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -61,7 +64,7 @@ app.post('/auth/register', async (req, res) => {
                 email,
                 password,
                 name,
-                role: role || 'CLIENT',
+                role: role || 'POSTER',
                 bio: req.body.bio || '',
                 skills: req.body.skills || '',
                 hourlyRate: req.body.hourlyRate ? parseFloat(req.body.hourlyRate) : null,
@@ -126,10 +129,15 @@ app.post('/upload', upload.single('photo'), (req, res) => {
 // --- Job Routes ---
 
 app.post('/jobs', upload.array('photos', 5), async (req, res) => {
+    console.log('Received job creation request', req.body);
     const { title, description, price, latitude, longitude, clientId, category, zipCode, scheduledDate, tags } = req.body;
+
+    if (!title || !price || !zipCode || !clientId) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
     const jobPhotos = req.files ? req.files.map(f => f.filename).join(',') : '';
     try {
-        // const { latitude, longitude } = await geocodeZipCode(zipCode); // This line is commented out or removed as latitude/longitude are now expected in req.body
         const job = await prisma.job.create({
             data: {
                 title,
@@ -137,8 +145,8 @@ app.post('/jobs', upload.array('photos', 5), async (req, res) => {
                 price: parseFloat(price),
                 clientId: parseInt(clientId),
                 zipCode,
-                latitude: parseFloat(latitude),
-                longitude: parseFloat(longitude),
+                latitude: parseFloat(latitude) || 0,
+                longitude: parseFloat(longitude) || 0,
                 category,
                 tags,
                 isUrgent: req.body.isUrgent === 'true' || req.body.isUrgent === true,
@@ -161,6 +169,7 @@ app.get('/jobs', async (req, res) => {
         });
         res.json(jobs);
     } catch (e) {
+        console.error('Error fetching jobs:', e);
         res.status(500).json({ error: 'Failed to fetch jobs' });
     }
 });
@@ -172,6 +181,9 @@ app.get('/jobs/:id', async (req, res) => {
             where: { id: parseInt(id) },
             include: { client: true, applications: true, provider: true },
         });
+        if (!job) {
+            return res.status(404).json({ error: 'Job not found' });
+        }
         res.json(job);
     } catch (e) {
         res.status(500).json({ error: 'Failed to fetch job' });

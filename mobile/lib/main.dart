@@ -6,11 +6,12 @@ import 'features/auth/screens/register_screen.dart';
 import 'features/jobs/screens/jobs_screen.dart';
 import 'features/jobs/screens/create_job_screen.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'shared/services/api_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Stripe.publishableKey = 'pk_test_TYooMQauvdEDq54NiTphI7jx'; // Replace with your key
-  runApp(const MyApp());
+  runApp(const DoneApp());
 }
 
 class DoneApp extends StatelessWidget {
@@ -21,6 +22,7 @@ class DoneApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()..loadUser()),
+        Provider(create: (_) => ApiService()),
       ],
       child: Consumer<AuthProvider>(
         builder: (context, authProvider, _) {

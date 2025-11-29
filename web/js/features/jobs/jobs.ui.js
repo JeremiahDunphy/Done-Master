@@ -15,10 +15,17 @@ export async function loadJobs() {
     jobsGrid.innerHTML = '<div class="spinner" style="margin: 2rem auto;"></div>';
 
     try {
+        console.log('Loading jobs...');
+        const jobsPromise = getJobs();
+        const savedPromise = getSavedJobIds();
+
+        console.log('Waiting for jobs and saved jobs...');
         const [jobs, savedIds] = await Promise.all([
-            getJobs(),
-            getSavedJobIds()
+            jobsPromise,
+            savedPromise
         ]);
+        console.log('Jobs loaded:', jobs);
+        console.log('Saved IDs loaded:', savedIds);
 
         state.allJobs = jobs;
         savedJobIds = new Set(savedIds);
@@ -30,7 +37,8 @@ export async function loadJobs() {
 
         displayJobs(jobs);
     } catch (error) {
-        jobsGrid.innerHTML = '<p class="text-center text-muted">Failed to load jobs.</p>';
+        console.error('Error loading jobs:', error);
+        jobsGrid.innerHTML = '<p class="text-center text-muted">Failed to load jobs: ' + error.message + '</p>';
     }
 }
 
@@ -57,7 +65,7 @@ export function displayJobs(jobs) {
         return `
             <div class="card job-card fade-in-up" style="position: relative;">
                 ${state.currentUser ? `
-                <button onclick="window.toggleSave(${job.id})" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: ${isSaved ? '#ef4444' : 'var(--text-muted)'}; transition: transform 0.2s;">
+                <button onclick="window.toggleSave(${job.id})" class="save-btn ${isSaved ? 'saved' : ''}">
                     ${isSaved ? '❤️' : '🤍'}
                 </button>` : ''}
                 <div class="job-header">
@@ -97,8 +105,8 @@ function getBadgeClass(status) {
 function getJobButtons(job) {
     if (!state.currentUser) return '';
 
-    const isClient = state.currentUser.role === 'CLIENT' && job.clientId === state.currentUser.id;
-    const isProvider = state.currentUser.role === 'PROVIDER';
+    const isClient = state.currentUser.role === 'POSTER' && job.clientId === state.currentUser.id;
+    const isProvider = state.currentUser.role === 'DOER';
     const isMyJob = job.providerId === state.currentUser.id;
 
     if (isClient) {
@@ -216,59 +224,85 @@ export function initJobs() {
         });
     });
 
-    document.getElementById('create-job-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const title = document.getElementById('job-title').value;
-        const description = document.getElementById('job-description').value;
-        const price = document.getElementById('job-price').value;
-        const zipCode = document.getElementById('job-zip').value;
-        const category = document.getElementById('job-category').value;
-        const scheduledDate = document.getElementById('job-date').value;
+    // Create Job Form
+    const createJobForm = document.getElementById('create-job-form');
+    if (createJobForm) {
+        console.log('Attaching create-job-form listener');
+        createJobForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            console.log('Create job form submitted');
+            window.jobCreationSuccess = false;
+            window.lastJobError = null;
 
-        // Upload photos first
-        const photoFiles = document.getElementById('job-photos').files;
-        let photoUrls = [];
-        if (photoFiles.length > 0) {
-            try {
-                // Upload each photo sequentially
-                for (let i = 0; i < photoFiles.length; i++) {
-                    const url = await uploadPhoto(photoFiles[i]);
-                    if (url) photoUrls.push(url);
+            const title = document.getElementById('job-title').value;
+            const description = document.getElementById('job-description').value;
+            const category = document.getElementById('job-category').value;
+            const price = document.getElementById('job-price').value;
+            const isUrgent = document.getElementById('job-urgent').checked;
+            const zipCode = document.getElementById('job-zipcode').value;
+
+            // Defensive check for date element
+            const dateEl = document.getElementById('job-date');
+            const scheduledDate = dateEl ? dateEl.value : null;
+            console.log('Job data:', { title, description, category, price, isUrgent, zipCode, scheduledDate });
+
+            // Upload photos first
+            const photoFiles = document.getElementById('job-photos').files;
+            let uploadedPhotos = [];
+            if (photoFiles.length > 0) {
+                try {
+                    // Upload each photo sequentially
+                    for (let i = 0; i < photoFiles.length; i++) {
+                        const url = await uploadPhoto(photoFiles[i]);
+                        if (url) uploadedPhotos.push(url);
+                    }
+                } catch (e) {
+                    console.error('Photo upload failed', e);
+                    showMessage('Failed to upload photos', 'error');
+                    return;
                 }
-            } catch (e) {
-                console.error('Photo upload failed', e);
-                showMessage('Failed to upload photos', 'error');
-                return;
             }
-        }
 
-        try {
-            await createJob({
-                title,
-                description,
-                price,
-                clientId: state.currentUser.id,
-                zipCode,
-                category,
-                category,
-                photos: photoUrls.join(','),
-                scheduledDate,
-                isUrgent: document.getElementById('job-urgent').checked
-            });
-            showMessage('Job created successfully!', 'success');
-            document.getElementById('create-job-form').reset();
-            document.getElementById('photo-preview').innerHTML = ''; // Clear previews
-            showPage('home');
-            loadJobs();
-        } catch (error) {
-            console.error(error);
-            if (error.message === 'Invalid zip code') {
-                showMessage('Invalid zip code. Please enter a valid US zip code.');
-            } else {
-                showMessage('Failed to create job. ' + error.message);
+            let latitude = 0;
+            let longitude = 0;
+            try {
+                const coords = await geocodeZipCode(zipCode);
+                latitude = coords.latitude;
+                longitude = coords.longitude;
+            } catch (e) {
+                console.warn('Geocoding failed, using 0,0');
             }
-        }
-    });
+
+            try {
+                console.log('Creating job with coords:', latitude, longitude);
+                await createJob({
+                    title,
+                    description,
+                    price,
+                    clientId: state.currentUser.id,
+                    zipCode,
+                    category,
+                    photos: uploadedPhotos.join(','),
+                    scheduledDate,
+                    latitude,
+                    longitude,
+                    isUrgent: document.getElementById('job-urgent').checked
+                });
+                showMessage('Job created successfully!', 'success');
+                document.getElementById('create-job-form').reset();
+                document.getElementById('photo-preview').innerHTML = ''; // Clear previews
+                showPage('home');
+                loadJobs();
+            } catch (error) {
+                console.error('Job creation error:', error.message);
+                if (error.message === 'Invalid zip code') {
+                    showMessage('Invalid zip code. Please enter a valid US zip code.');
+                } else {
+                    showMessage('Failed to create job. ' + error.message);
+                }
+            }
+        });
+    }
 
     // Search Logic
     window.searchJobs = async () => {
@@ -307,14 +341,13 @@ export function initJobs() {
     // Category Filter
     window.filterByCategory = (category) => {
         document.querySelectorAll('.category-chip').forEach(btn => {
-            if (btn.textContent === category) {
+            if (btn.textContent.includes(category) || (category === 'Saved' && btn.textContent.includes('Saved'))) {
                 btn.classList.add('active');
-                btn.style.backgroundColor = 'var(--primary)';
-                btn.style.color = 'white';
             } else {
                 btn.classList.remove('active');
-                btn.style.backgroundColor = 'transparent';
-                btn.style.color = 'var(--text-primary)';
+                // Reset inline styles if any were left
+                btn.style.backgroundColor = '';
+                btn.style.color = '';
             }
         });
 
