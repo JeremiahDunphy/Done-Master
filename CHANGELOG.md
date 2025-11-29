@@ -30,3 +30,38 @@ All notable changes to this project will be documented in this file.
 - **Backend**: Updated `server.js` to handle `NaN` coordinates gracefully.
 - **Profile**: Fixed bug where email was displayed repeatedly on the profile page.
 - **Profile**: Fixed bug where hourly rate input was hidden for Clients (now Posters).
+
+## [v0.2.0] - E2E Testing & Verification
+
+### Added
+- **Backend Tests**: Implemented comprehensive Jest tests for all API endpoints (`backend/tests/api.test.js`).
+- **Web E2E Tests**: Implemented Puppeteer-based E2E tests for critical user flows (`web/tests/e2e.test.js`):
+    - Landing page load.
+    - User registration and login.
+    - Job creation with photo upload simulation.
+    - User profile display.
+- **Mobile Tests**: Created scaffold for Flutter integration tests (`mobile/integration_test/app_test.dart`).
+
+### Fixed
+- **Web Socket**: Replaced CDN-based `socket.io` with local library for better offline stability.
+- **Backend**: Fixed various minor bugs discovered during testing.
+
+## [v0.1.0] - Initial Release
+
+### Added
+- **Backend**:
+    - Node.js + Express server setup.
+    - Prisma ORM with SQLite database.
+    - JWT Authentication (Login/Register).
+    - API Endpoints for Jobs, Users, Reviews, and Notifications.
+    - File upload support using Multer.
+    - Real-time chat support using Socket.io.
+- **Web Application**:
+    - Vanilla JavaScript SPA architecture.
+    - Custom Router for navigation.
+    - Features: Landing Page, Login/Register, Job Feed, Job Details, Create Job, Profile, Chat.
+- **Mobile Application (Flutter)**:
+    - Cross-platform mobile app structure.
+    - Features: Authentication, Job Feed, Job Details, Profile, Chat.
+    - Google Maps integration for job locations.
+    - Stripe payment integration (UI mock).
