@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Planned
+- **Backend E2E Tests**: Implement end-to-end tests for the backend API.
+- **Real Payment Integration**: Replace mocked Stripe integration with real payment processing.
+- **Push Notifications**: Implement real push notifications for mobile and web.
+- **Mobile Deployment**: Configure build pipelines for iOS and Android deployment.
+- **Mobile Integration Tests**: Expand mobile integration tests to cover all user flows.
+
 ### Added
 - **Mobile Integration Tests**: Added initial structure for mobile integration tests in `mobile/integration_test/`.
 - **Web UI**: Added a bottom navigation bar for mobile-friendly navigation.
