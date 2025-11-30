@@ -8,8 +8,8 @@ All notable changes to this project will be documented in this file.
 - **Backend E2E Tests**: Implement end-to-end tests for the backend API.
 - **Real Payment Integration**: Replace mocked Stripe integration with real payment processing.
 - **Push Notifications**: Implement real push notifications for mobile and web.
-- **Mobile Deployment**: Configure build pipelines for iOS and Android deployment.
-- **Mobile Integration Tests**: Expand mobile integration tests to cover all user flows.
+- **Mobile Deployment**: Configure build pipelines for iOS (CocoaPods setup) and Android deployment.
+- **Mobile Integration Tests**: Configure ChromeDriver and expand tests to cover all user flows.
 
 ### Added
 - **Mobile Integration Tests**: Added initial structure for mobile integration tests in `mobile/integration_test/`.
@@ -32,6 +32,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - **Navigation**: Fixed "Done" logo behavior to correctly navigate to Home when logged in.
 - **Mobile Build**: Fixed class name mismatches (`MyApp` -> `DoneApp`) and missing imports in `mobile/lib/main.dart`.
+- **Mobile UI**: Fixed string escaping issue in `terms_modal.dart`.
 - **Web API**: Fixed `Content-Type` header issue for `FormData` uploads in `web/js/shared/api.js`.
 - **Web Logic**: Fixed `SyntaxError` and `ReferenceError` in `web/js/features/jobs/jobs.ui.js`.
 - **Backend**: Updated `server.js` to handle `NaN` coordinates gracefully.
