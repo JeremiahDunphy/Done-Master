@@ -60,30 +60,74 @@ This document provides a comprehensive overview of the "Done" gig marketplace ap
 
 ## Planned Features (Roadmap)
 
-### Security & Auth
-- [ ] **Password Reset**: Email-based password recovery flow.
-- [ ] **Email Verification**: Verify user email addresses upon registration.
-- [ ] **Social Login**: Google and Apple Sign-In integration.
-- [ ] **Two-Factor Authentication (2FA)**: SMS or Authenticator app support.
+### Trust & Safety
+- [ ] **Identity Verification**: Integration with ID verification services (e.g., Persona, Stripe Identity).
+- [ ] **Background Checks**: Automated criminal background checks for Doers.
+- [ ] **Insurance Protection**: Liability insurance coverage for tasks booked on the platform.
+- [ ] **Anonymized Phone Numbers**: Masked phone numbers for calls/texts between users.
+- [ ] **Secure Payments**: Escrow system to hold funds until task completion.
+- [ ] **Fraud Detection**: AI-based monitoring for suspicious activity.
+- [ ] **User Badges**: "Verified", "Background Checked", and "Insured" profile badges.
+- [ ] **Emergency Button**: In-app panic button for immediate assistance.
 
-### Marketplace Features
-- [ ] **Advanced Search**: Search by radius (geolocation), price range, and keywords.
-- [ ] **Dispute Resolution**: System for users to report issues and admins to intervene.
-- [ ] **Escrow Payments**: Hold funds until job completion is verified by both parties.
-- [ ] **Recurring Jobs**: Option to post jobs that repeat weekly/monthly.
-- [ ] **In-App Wallet**: Balance for Doers to withdraw funds.
+### Booking & Scheduling
+- [ ] **Instant Booking**: Allow Posters to book Doers immediately without application approval.
+- [ ] **Recurring Tasks**: Option to schedule tasks weekly, bi-weekly, or monthly.
+- [ ] **Calendar Integration**: Sync tasks with Google Calendar, Outlook, and Apple Calendar.
+- [ ] **Rescheduling Tools**: Easy flow for proposing and accepting new times.
+- [ ] **Cancellation Policies**: Configurable cancellation windows and fees.
+- [ ] **Same-Day Service**: Filter for Doers available for immediate work.
+- [ ] **Multi-Day Tasks**: Support for jobs spanning multiple days.
+- [ ] **Team Booking**: Hire a team of Doers for larger projects.
 
-### User Experience
-- [ ] **Dark Mode**: System-wide dark theme support.
-- [ ] **Multi-language Support**: Localization for Spanish, French, etc.
-- [ ] **Push Notifications**: FCM/APNs integration for mobile alerts.
-- [ ] **User Blocking**: Ability to block and report abusive users.
-- [ ] **Help Center**: FAQ and support ticket system.
+### Task Management
+- [ ] **Task Checklists**: Posters can create to-do lists for Doers to check off.
+- [ ] **Photo Sharing in Chat**: Send images directly within the chat interface.
+- [ ] **Voice Notes**: Send audio messages for complex instructions.
+- [ ] **Live Location Tracking**: Real-time tracking of Doer when en route.
+- [ ] **Time Tracking**: In-app timer for hourly jobs.
+- [ ] **Expense Reimbursement**: Flow for Doers to request reimbursement for supplies.
+- [ ] **Before/After Photos**: Dedicated section for proof of work.
 
-### Infrastructure
-- [ ] **Admin Dashboard**: Web portal for admins to manage users and jobs.
-- [ ] **CI/CD Pipelines**: Automated testing and deployment to app stores.
-- [ ] **Cloud Storage**: Migrate from local uploads to AWS S3 or Cloudinary.
+### Financial & Incentives
+- [ ] **Tipping**: Option to add a tip after task completion.
+- [ ] **Invoicing**: Generate PDF invoices for completed tasks.
+- [ ] **Promo Codes**: Support for discount codes and marketing campaigns.
+- [ ] **Referral Program**: Rewards for inviting friends to the platform.
+- [ ] **Gift Cards**: Purchase and redeem digital gift cards.
+- [ ] **Surge Pricing**: Dynamic pricing during high demand periods.
+- [ ] **Loyalty Program**: Points system for frequent users.
+- [ ] **Doer Wallet**: In-app balance view and instant payout options.
+
+### User Profile & Discovery
+- [ ] **Video Introductions**: Doers can upload a short video bio.
+- [ ] **Portfolio Galleries**: Rich media galleries for past work.
+- [ ] **Skills Assessments**: Tests to verify Doer skills (e.g., IKEA assembly).
+- [ ] **Social Media Linking**: Connect Instagram/LinkedIn profiles.
+- [ ] **AI Matching**: Smart recommendations for Doers based on job description.
+- [ ] **Favorite Doers**: "Heart" Doers to easily book them again.
+- [ ] **Price Estimation Tool**: Calculator to help Posters estimate job costs.
+- [ ] **Category Browsing**: Visual category explorer with sub-categories.
+
+### Communication & Accessibility
+- [ ] **Video Calling**: In-app video calls for remote consultations.
+- [ ] **Canned Responses**: Quick reply templates for common questions.
+- [ ] **Multi-language Translation**: Real-time translation of chat messages.
+- [ ] **Screen Reader Support**: Full compatibility with TalkBack and VoiceOver.
+- [ ] **High Contrast Mode**: Accessibility theme for visually impaired users.
+- [ ] **Font Scaling**: Dynamic text sizing support.
+
+### Platform & Infrastructure
+- [ ] **Web Dashboard for Doers**: Advanced analytics and schedule management on web.
+- [ ] **Team Accounts**: Business accounts with multiple users and centralized billing.
+- [ ] **Public API**: API for partners to integrate booking functionality.
+- [ ] **Community Forum**: Discussion board for Doers to share tips.
+- [ ] **Blog/Tips Section**: Content hub for home improvement advice.
+- [ ] **Tax Document Generation**: Automated 1099 form generation for Doers.
+- [ ] **GDPR Compliance Tools**: Data export and deletion requests.
+- [ ] **Admin Dashboard**: Comprehensive admin panel for user and job management.
+- [ ] **CI/CD Pipelines**: Automated testing and deployment.
+- [ ] **Cloud Storage**: Migration to AWS S3 for scalable file storage.
 
 ## Verification Status
 
