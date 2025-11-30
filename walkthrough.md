@@ -1,104 +1,89 @@
 # Project Status & Walkthrough - Done App
 
-This document provides a comprehensive overview of the "Done" gig marketplace application, detailing all implemented features, recent improvements, and remaining work.
+This document provides a comprehensive overview of the "Done" gig marketplace application. It details every implemented feature and outlines the roadmap for future development.
 
 ## Project Overview
 "Done" is a gig marketplace connecting "Posters" (clients who post jobs) with "Doers" (providers who perform tasks). The application consists of a Node.js backend, a Vanilla JS web frontend, and a Flutter mobile app.
 
-## Feature Status
+## Feature Checklist
 
 ### Backend (Node.js + Express + Prisma)
-- **Authentication & Users**:
-    - JWT-based Login and Registration.
-    - Role-based access control (Poster/Doer).
-    - Profile management (Bio, Skills, Hourly Rate, Profile Image).
-    - **Elite Status**: Automatic calculation of "Elite" status for Doers based on completed jobs (10+) and average rating (4.8+).
-- **Jobs & Applications**:
-    - **CRUD Operations**: Create, Read, Update, Delete jobs.
-    - **Search & Filter**: Filter by category, price, etc.
-    - **Applications**: Doers can apply for jobs; Posters can accept applications.
-    - **Job Lifecycle**: Open -> In Progress -> Completed -> Paid.
-    - **Saved Jobs**: Users can save jobs for later viewing.
-- **Reviews & Ratings**:
-    - Create and read reviews for completed jobs.
-    - Automatic update of provider stats (Average Rating, Jobs Completed).
-- **Financials**:
-    - **Transactions**: Records all payments with a 10% platform fee deduction.
-    - **Payment Integration**: Stripe Payment Intent creation (Mocked for dev).
-- **Real-time Communication**:
-    - **Chat**: Real-time messaging between users using Socket.io.
-    - **Notifications**: Real-time alerts for job updates, applications, and messages.
-- **Infrastructure**:
-    - **File Upload**: Local file upload support (Multer) for profile pictures and job photos.
-    - **Database**: SQLite with Prisma ORM (easily switchable to Postgres/MySQL).
+- [x] **User Registration**: Create accounts with email, password, name, and role (Poster/Doer).
+- [x] **User Login**: Authenticate users and issue JWT tokens.
+- [x] **Role Management**: Distinct roles for Posters and Doers with specific permissions.
+- [x] **Profile Management**: Update bio, skills, hourly rate, and profile image.
+- [x] **Elite Status Calculation**: Automatically upgrade Doers to "Elite" status based on performance (10+ jobs, 4.8+ rating).
+- [x] **Job Creation**: Create jobs with title, description, price, location, urgency, category, and tags.
+- [x] **Job Listing**: Retrieve open jobs with filtering options.
+- [x] **Job Details**: Fetch full job details including photos and client info.
+- [x] **Job Application**: Doers can apply for open jobs.
+- [x] **Application Acceptance**: Posters can accept applications, moving job to "In Progress".
+- [x] **Job Completion**: Mark jobs as completed to trigger payment logic.
+- [x] **Transaction Recording**: Record payments with a 10% platform fee deduction.
+- [x] **Payment Intent Creation**: Generate Stripe Payment Intents (mocked).
+- [x] **Reviews**: Create reviews with ratings and comments for completed jobs.
+- [x] **Provider Stats**: Automatically update average rating and jobs completed count.
+- [x] **Saved Jobs**: Toggle "Save" status for jobs.
+- [x] **Notifications**: Create and retrieve notifications for user events.
+- [x] **Real-time Chat**: Socket.io integration for instant messaging.
+- [x] **File Upload**: Multer configuration for local image uploads.
+- [x] **CORS Configuration**: Secure cross-origin resource sharing setup.
 
 ### Web Application (Vanilla JS)
-- **Architecture**: Single Page Application (SPA) with custom router.
-- **Core Features**:
-    - **Landing Page**: Modern design with glassmorphism and call-to-action.
-    - **Auth**: Login/Register forms with role selection.
-    - **Jobs Dashboard**: Feed of available jobs with category chips and "Saved" toggle.
-    - **Job Creation**: Multi-step form with photo upload, location input, and validation.
-    - **Job Details**:
-        - Interactive Map view (Leaflet).
-        - "Apply" functionality for Doers.
-        - "Accept Application" for Posters.
-        - "Mark Complete" flow.
-    - **Profile**:
-        - View and edit user profile.
-        - Display reviews and portfolio.
-        - Toggle "Saved Jobs" list.
-    - **Chat**: Real-time chat interface with conversation list.
-    - **Notifications**: Dropdown list of recent notifications.
-- **UI/UX**:
-    - **Responsive Design**: Mobile-friendly layout with bottom navigation bar.
-    - **Visuals**: Glassmorphism effects, modern typography, and smooth transitions.
+- [x] **Glassmorphism UI**: Modern, translucent design aesthetic.
+- [x] **Responsive Layout**: Adapts to mobile and desktop screens.
+- [x] **Bottom Navigation**: Mobile-friendly navigation bar.
+- [x] **Custom Router**: Client-side routing for SPA experience.
+- [x] **Landing Page**: Hero section with call-to-action buttons.
+- [x] **Role Selection**: Interactive role picker during registration.
+- [x] **Job Feed**: Dynamic list of jobs with category chips.
+- [x] **Job Filtering**: Filter jobs by category or status.
+- [x] **Map Integration**: Leaflet map displaying job location.
+- [x] **Photo Upload**: Drag-and-drop or click-to-upload for job photos.
+- [x] **Profile View**: Display user stats, portfolio, and reviews.
+- [x] **Edit Profile**: Form to update user details.
+- [x] **Chat Interface**: Real-time conversation list and message view.
+- [x] **Notification Dropdown**: Quick access to recent alerts.
+- [x] **"Saved" Toggle**: Bookmark jobs directly from the feed.
 
 ### Mobile Application (Flutter)
-- **Architecture**: Cross-platform (iOS/Android) using Provider for state management.
-- **Core Features**:
-    - **Auth**: Login/Register screens.
-    - **Jobs**:
-        - Scrollable job feed.
-        - Job Details with Google Maps integration (`flutter_map`).
-        - Create Job screen with image picker.
-    - **Applications**: Apply for jobs and manage job status.
-    - **Profile**: User profile view with stats.
-    - **Chat**: Real-time chat screen.
-    - **Notifications**: List of notifications.
-    - **Payment**: Stripe UI integration (Mock).
+- [x] **Cross-Platform Support**: Runs on iOS and Android.
+- [x] **State Management**: Uses `Provider` for efficient state handling.
+- [x] **Google Maps**: Interactive map for job locations (`flutter_map`).
+- [x] **Geolocation**: Get user's current location for job posting.
+- [x] **Image Picker**: Select photos from gallery or camera.
+- [x] **Stripe UI**: Payment sheet integration (Mock).
+- [x] **Rating Bar**: Interactive star rating widget.
+- [x] **Url Launcher**: Open external links (e.g., maps navigation).
+- [x] **Job Feed**: Infinite scroll list of jobs.
+- [x] **Chat Screen**: Real-time messaging UI.
 
-## Recent Improvements (v0.3.0 - Unreleased)
+## Planned Features (Roadmap)
 
-### Terminology Refactor
-Replaced "Client" and "Provider" with "Poster" and "Doer" across the entire stack (DB, Backend, Web, Mobile) to better reflect the marketplace dynamics.
+### Security & Auth
+- [ ] **Password Reset**: Email-based password recovery flow.
+- [ ] **Email Verification**: Verify user email addresses upon registration.
+- [ ] **Social Login**: Google and Apple Sign-In integration.
+- [ ] **Two-Factor Authentication (2FA)**: SMS or Authenticator app support.
 
-### Web UI/UX Enhancements
-- **Visuals**: Implemented glassmorphism design, improved typography, and standardized components.
-- **Navigation**: Added a responsive bottom navigation bar.
-- **Usability**: Fixed navigation bugs, improved form validation, and polished the job creation flow.
+### Marketplace Features
+- [ ] **Advanced Search**: Search by radius (geolocation), price range, and keywords.
+- [ ] **Dispute Resolution**: System for users to report issues and admins to intervene.
+- [ ] **Escrow Payments**: Hold funds until job completion is verified by both parties.
+- [ ] **Recurring Jobs**: Option to post jobs that repeat weekly/monthly.
+- [ ] **In-App Wallet**: Balance for Doers to withdraw funds.
 
-````carousel
-![Landing Page](/Users/jeremiahdunphy/.gemini/antigravity/brain/5b1ba82a-56a2-4dd9-bc1e-5d9e35e6409d/landing_page_after_1764447484730.png)
-<!-- slide -->
-![Jobs Dashboard](/Users/jeremiahdunphy/.gemini/antigravity/brain/5b1ba82a-56a2-4dd9-bc1e-5d9e35e6409d/jobs_dashboard_after_1764447477788.png)
-<!-- slide -->
-![Create Job](/Users/jeremiahdunphy/.gemini/antigravity/brain/5b1ba82a-56a2-4dd9-bc1e-5d9e35e6409d/create_job_after_1764447577055.png)
-````
+### User Experience
+- [ ] **Dark Mode**: System-wide dark theme support.
+- [ ] **Multi-language Support**: Localization for Spanish, French, etc.
+- [ ] **Push Notifications**: FCM/APNs integration for mobile alerts.
+- [ ] **User Blocking**: Ability to block and report abusive users.
+- [ ] **Help Center**: FAQ and support ticket system.
 
-## Remaining Work (Planned)
-
-### Backend
-- [ ] **E2E Tests**: Implement full end-to-end test suite.
-- [ ] **Real Payments**: Replace mock with live Stripe Connect integration.
-
-### Mobile
-- [ ] **Deployment**: Configure CI/CD for App Store and Play Store.
-- [ ] **Integration Tests**: Set up ChromeDriver/CocoaPods to run full integration suite.
-- [ ] **Push Notifications**: Implement FCM/APNs for real-time alerts.
-
-### General
-- [ ] **Staging Deployment**: Deploy to a cloud provider (e.g., Heroku, Vercel, Firebase) for public testing.
+### Infrastructure
+- [ ] **Admin Dashboard**: Web portal for admins to manage users and jobs.
+- [ ] **CI/CD Pipelines**: Automated testing and deployment to app stores.
+- [ ] **Cloud Storage**: Migrate from local uploads to AWS S3 or Cloudinary.
 
 ## Verification Status
 
@@ -111,3 +96,11 @@ Replaced "Client" and "Provider" with "Poster" and "Doer" across the entire stac
 ### Manual Verification
 - **Web**: Verified critical flows (Register -> Post Job -> Apply) manually.
 - **Mobile**: Verified build integrity (`flutter build web`).
+
+````carousel
+![Landing Page](/Users/jeremiahdunphy/.gemini/antigravity/brain/5b1ba82a-56a2-4dd9-bc1e-5d9e35e6409d/landing_page_after_1764447484730.png)
+<!-- slide -->
+![Jobs Dashboard](/Users/jeremiahdunphy/.gemini/antigravity/brain/5b1ba82a-56a2-4dd9-bc1e-5d9e35e6409d/jobs_dashboard_after_1764447477788.png)
+<!-- slide -->
+![Create Job](/Users/jeremiahdunphy/.gemini/antigravity/brain/5b1ba82a-56a2-4dd9-bc1e-5d9e35e6409d/create_job_after_1764447577055.png)
+````
