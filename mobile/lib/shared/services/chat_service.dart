@@ -3,16 +3,20 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../models/models.dart';
 
 class ChatService {
-  late IO.Socket socket;
+  IO.Socket? _socket;
   final _messageController = StreamController<Message>.broadcast();
+
+  ChatService({IO.Socket? socket}) : _socket = socket;
 
   Stream<Message> get messageStream => _messageController.stream;
 
   void connect(int userId) {
-    socket = IO.io('http://localhost:3000', <String, dynamic>{
+    _socket ??= IO.io('http://localhost:3000', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
+    
+    final socket = _socket!;
     
     socket.connect();
     
@@ -32,7 +36,7 @@ class ChatService {
   }
 
   void sendMessage(int senderId, int receiverId, String content) {
-    socket.emit('send_message', {
+    _socket?.emit('send_message', {
       'senderId': senderId,
       'receiverId': receiverId,
       'content': content,
@@ -40,11 +44,11 @@ class ChatService {
   }
   
   void disconnect() {
-    socket.disconnect();
+    _socket?.disconnect();
   }
   
   void dispose() {
     _messageController.close();
-    socket.dispose();
+    _socket?.dispose();
   }
 }

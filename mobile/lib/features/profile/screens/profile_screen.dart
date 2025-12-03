@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../auth/providers/auth_provider.dart';
-import '../../shared/models/models.dart';
-import '../../shared/services/api_service.dart';
+import '../../../shared/models/models.dart';
+import '../../../shared/services/api_service.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -35,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   double get _averageRating {
     if (_reviews.isEmpty) return 0;
-    final sum = _reviews.fold(0, (prev, r) => prev + r.rating);
+    final sum = _reviews.fold(0.0, (prev, Review r) => prev + r.rating);
     return sum / _reviews.length;
   }
 

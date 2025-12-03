@@ -22,9 +22,18 @@
 
 <body>
   <!-- Navbar -->
+  <script>
+    function handleLogoClick() {
+      if (window.appHandleLogoClick) {
+        window.appHandleLogoClick();
+      } else {
+        window.location.href = '/';
+      }
+    }
+  </script>
   <nav id="navbar" class="navbar">
     <div class="container navbar-content">
-      <div class="logo" onclick="showPage('landing')" style="cursor: pointer;">Done</div>
+      <div class="logo" onclick="handleLogoClick()" style="cursor: pointer;">Done</div>
       <div id="user-info" style="display: flex; align-items: center; gap: 1rem;">
         <button id="theme-toggle" class="btn btn-secondary" onclick="toggleTheme()"
           style="padding: 0.5rem; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">☀️</button>
@@ -184,7 +193,7 @@
   <!-- Login Page -->
   <div id="login-page" class="page hidden">
     <div class="container" style="max-width: 500px; padding-top: 5rem;">
-      <div class="card fade-in-up" style="text-align: center;">
+      <div class="card fade-in-up auth-container" style="text-align: center;">
         <h1 class="text-gradient mb-xl">Done</h1>
         <h2 class="mb-lg">Welcome Back</h2>
 
@@ -235,10 +244,10 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">I am a...</label>
-            <select id="register-role" class="form-select" required>
-              <option value="CLIENT">Client (I post jobs)</option>
-              <option value="PROVIDER">Provider (I do jobs)</option>
+            <label for="reg-role">I want to:</label>
+            <select id="reg-role" class="form-select" required>
+              <option value="POSTER">Post Jobs (Hire)</option>
+              <option value="DOER">Do Jobs (Work)</option>
             </select>
           </div>
           <div class="form-group">
@@ -284,14 +293,14 @@
         <!-- Category Chips -->
         <div
           style="display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 1rem; margin-bottom: 1rem; scrollbar-width: none;">
-          <button class="btn btn-outline category-chip active" onclick="filterByCategory('All')">All</button>
-          <button class="btn btn-outline category-chip" onclick="filterByCategory('Cleaning')">Cleaning</button>
-          <button class="btn btn-outline category-chip" onclick="filterByCategory('Handyman')">Handyman</button>
-          <button class="btn btn-outline category-chip" onclick="filterByCategory('Moving')">Moving</button>
+          <button class="category-chip active" onclick="filterByCategory('All')">All</button>
+          <button class="category-chip" onclick="filterByCategory('Cleaning')">Cleaning</button>
+          <button class="category-chip" onclick="filterByCategory('Handyman')">Handyman</button>
+          <button class="category-chip" onclick="filterByCategory('Moving')">Moving</button>
           <button class="category-chip" onclick="filterByCategory('Tech Help')">Tech Help</button>
           <button class="category-chip" onclick="filterByCategory('Saved')">❤️ Saved</button>
-          <button class="btn btn-outline category-chip" onclick="filterByCategory('Gardening')">Gardening</button>
-          <button class="btn btn-outline category-chip" onclick="filterByCategory('Pet Care')">Pet Care</button>
+          <button class="category-chip" onclick="filterByCategory('Gardening')">Gardening</button>
+          <button class="category-chip" onclick="filterByCategory('Pet Care')">Pet Care</button>
         </div>
 
         <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: end;">
@@ -389,6 +398,11 @@
             <label class="form-label">Photos (up to 5)</label>
             <input type="file" id="job-photos" class="form-input" accept="image/*" multiple style="padding: 0.5rem;">
             <div id="photo-preview" class="mt-md" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Scheduled Date</label>
+            <input type="date" id="job-date" class="form-input">
           </div>
 
           <div class="form-group">
@@ -519,10 +533,30 @@
     </div>
   </div>
 
+  <!-- Bottom Navigation (Mobile Style) -->
+  <nav id="bottom-nav" class="bottom-nav" style="display: none;">
+    <a onclick="showPage('home')" class="nav-item active">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Home</span>
+    </a>
+    <a onclick="showPage('create-job')" class="nav-item" id="nav-create-job">
+      <span class="nav-icon">➕</span>
+      <span class="nav-label">Post</span>
+    </a>
+    <a onclick="showPage('chat')" class="nav-item">
+      <span class="nav-icon">💬</span>
+      <span class="nav-label">Chat</span>
+    </a>
+    <a onclick="showPage('profile')" class="nav-item">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label">Profile</span>
+    </a>
+  </nav>
+
   <!-- Leaflet JS for maps -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <!-- Socket.io -->
-  <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+  <script src="js/libs/socket.io.js"></script>
   <script type="module" src="js/main.js"></script>
 </body>
 

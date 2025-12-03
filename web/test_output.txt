@@ -1,64 +1,46 @@
+🚀 Starting E2E Tests...
 
-> web@1.0.0 test
-> NODE_OPTIONS=--experimental-vm-modules jest
+🧪 Running: should load landing page
+PAGE LOG: You may test your Stripe.js integration over HTTP. However, live Stripe.js integrations must use HTTPS.
+PAGE LOG: Attaching create-job-form listener
+PAGE LOG: [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o
+PAGE LOG: [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o
+PAGE LOG: Failed to load resource: the server responded with a status of 404 (Not Found)
+✅ Passed: should load landing page
 
-(node:42085) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
-(Use `node --trace-warnings ...` to show where the warning was created)
-FAIL tests/jobs.test.js
-  ● jobs.service.js › createJob sends isUrgent flag
+🧪 Running: should navigate to login page
+PAGE LOG: You may test your Stripe.js integration over HTTP. However, live Stripe.js integrations must use HTTPS.
+PAGE LOG: Attaching create-job-form listener
+PAGE LOG: [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o
+PAGE LOG: [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o
+✅ Passed: should navigate to login page
 
-    expect(received).toBe(expected) // Object.is equality
+🧪 Running: should register a new user
+PAGE LOG: You may test your Stripe.js integration over HTTP. However, live Stripe.js integrations must use HTTPS.
+PAGE LOG: Attaching create-job-form listener
+PAGE LOG: [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o
+PAGE LOG: [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o
+PAGE LOG: Register form submitted
+PAGE LOG: Calling register API...
+PAGE LOG: Registration successful
+PAGE LOG: Loading jobs...
+PAGE LOG: Waiting for jobs and saved jobs...
+PAGE LOG: Jobs loaded: JSHandle@array
+PAGE LOG: Saved IDs loaded: JSHandle@array
+✅ Passed: should register a new user
 
-    Expected: "true"
-    Received: true
+🧪 Running: should create a job
+PAGE LOG: Connected to socket
+PAGE LOG: Create job form submitted
+PAGE LOG: Job data: JSHandle@object
+PAGE LOG: Creating job with coords: 40.7484356 -73.9940338
+PAGE LOG: Loading jobs...
+PAGE LOG: Waiting for jobs and saved jobs...
+PAGE LOG: Jobs loaded: JSHandle@array
+PAGE LOG: Saved IDs loaded: JSHandle@array
+✅ Passed: should create a job
 
-      35 |         // Verify FormData content
-      36 |         const formData = global.fetch.mock.calls[0][1].body;
-    > 37 |         expect(formData.get('isUrgent')).toBe('true'); // FormData values are strings
-         |                                          ^
-      38 |         expect(formData.get('title')).toBe('Test Job');
-      39 |         expect(formData.get('clientId')).toBe('123'); // FormData values are strings
-      40 |     });
+🧪 Running: should show user info
+✅ Passed: should show user info
 
-      at Object.<anonymous> (tests/jobs.test.js:37:42)
-
-PASS tests/profile.test.js
-  ● Console
-
-    console.error
-      Failed to load reviews ReferenceError: You are trying to `import` a file outside of the scope of the test code.
-          at Runtime.linkAndEvaluateModule (/Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/web/node_modules/jest-runtime/build/index.js:677:13)
-          at importModuleDynamically (/Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/web/node_modules/jest-runtime/build/index.js:528:27)
-          at importModuleDynamicallyWrapper (node:internal/vm/module:434:15)
-          at loadUserReviews (/Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/web/js/features/profile/profile.ui.js:43:36)
-
-      74 |         `;
-      75 |     } catch (e) {
-    > 76 |         console.error('Failed to load reviews', e);
-         |                 ^
-      77 |     }
-      78 | }
-      79 |
-
-      at loadUserReviews (js/features/profile/profile.ui.js:76:17)
-
-    console.error
-      Failed to load reviews TypeError: reviews.map is not a function
-          at loadUserReviews (/Users/jeremiahdunphy/.gemini/antigravity/scratch/done-app/web/js/features/profile/profile.ui.js:64:27)
-
-      74 |         `;
-      75 |     } catch (e) {
-    > 76 |         console.error('Failed to load reviews', e);
-         |                 ^
-      77 |     }
-      78 | }
-      79 |
-
-      at loadUserReviews (js/features/profile/profile.ui.js:76:17)
-
-
-Test Suites: 1 failed, 1 passed, 2 total
-Tests:       1 failed, 2 passed, 3 total
-Snapshots:   0 total
-Time:        0.418 s, estimated 1 s
-Ran all test suites.
+🏁 Summary: 5 Passed, 0 Failed

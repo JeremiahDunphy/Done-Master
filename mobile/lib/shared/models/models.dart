@@ -6,6 +6,7 @@ class User {
   final bool isElite;
   final int jobsCompleted;
   final double averageRating;
+  final String? profileImage;
 
   User({
     required this.id,
@@ -15,6 +16,7 @@ class User {
     this.isElite = false,
     this.jobsCompleted = 0,
     this.averageRating = 0.0,
+    this.profileImage,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -26,87 +28,89 @@ class User {
       isElite: json['isElite'] ?? false,
       jobsCompleted: json['jobsCompleted'] ?? 0,
       averageRating: (json['averageRating'] ?? 0.0).toDouble(),
+      profileImage: json['profileImage'],
     );
   }
 }
 
 class Job {
   final int id;
+  final int posterId;
+  final int? doerId;
   final String title;
   final String description;
   final double price;
-  final double latitude;
-  final double longitude;
+  final String category;
+  final String? tags;
+  final User? poster;
+  final User? doer;
   final String status;
+  final DateTime createdAt;
+  final String zipCode;
+  final double? latitude;
+  final double? longitude;
+  final DateTime? scheduledDate;
   final List<String> photos;
-  final int clientId;
-  final int? providerId;
-  final String? zipCode;
-  final String? category;
-  final List<String>? tags;
-  final bool isUrgent;
-  final User? client;
-  final User? provider;
 
   Job({
     required this.id,
+    required this.posterId,
+    this.doerId,
     required this.title,
     required this.description,
     required this.price,
-    required this.latitude,
-    required this.longitude,
-    required this.status,
-    required this.photos,
-    required this.clientId,
-    this.providerId,
-    this.zipCode,
-    this.category,
+    required this.category,
     this.tags,
-    this.isUrgent = false,
-    this.client,
-    this.provider,
+    this.poster,
+    this.doer,
+    required this.status,
+    required this.createdAt,
+    required this.zipCode,
+    this.latitude,
+    this.longitude,
+    this.scheduledDate,
+    this.photos = const [],
   });
 
   factory Job.fromJson(Map<String, dynamic> json) {
     return Job(
       id: json['id'],
+      posterId: json['clientId'], 
+      doerId: json['providerId'],
       title: json['title'],
       description: json['description'],
-      price: json['price'].toDouble(),
-      latitude: json['latitude'].toDouble(),
-      longitude: json['longitude'].toDouble(),
-      status: json['status'],
-      photos: (json['photos'] != null && json['photos'].toString().isNotEmpty)
-          ? json['photos'].toString().split(',')
-          : [],
-      clientId: json['clientId'],
-      providerId: json['providerId'],
-      zipCode: json['zipCode'],
+      price: (json['price'] as num).toDouble(),
       category: json['category'],
-      tags: json['tags'] != null ? List<String>.from(json['tags'].toString().split(',')) : null,
-      isUrgent: json['isUrgent'] ?? false,
-      client: json['client'] != null ? User.fromJson(json['client']) : null,
-      provider: json['provider'] != null ? User.fromJson(json['provider']) : null,
+      tags: json['tags'],
+      poster: json['client'] != null ? User.fromJson(json['client']) : null,
+      doer: json['provider'] != null ? User.fromJson(json['provider']) : null,
+      status: json['status'],
+      createdAt: DateTime.parse(json['createdAt']),
+      zipCode: json['zipCode'] ?? '',
+      latitude: json['latitude'] != null ? (json['latitude'] as num).toDouble() : null,
+      longitude: json['longitude'] != null ? (json['longitude'] as num).toDouble() : null,
+      scheduledDate: json['scheduledDate'] != null ? DateTime.parse(json['scheduledDate']) : null,
+      photos: json['photos'] != null ? (json['photos'] as String).split(',').where((s) => s.isNotEmpty).toList() : [],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'clientId': posterId,
+      'providerId': doerId,
       'title': title,
       'description': description,
       'price': price,
+      'category': category,
+      'tags': tags,
+      'status': status,
+      'createdAt': createdAt.toIso8601String(),
+      'zipCode': zipCode,
       'latitude': latitude,
       'longitude': longitude,
-      'status': status,
+      'scheduledDate': scheduledDate?.toIso8601String(),
       'photos': photos.join(','),
-      'clientId': clientId,
-      'providerId': providerId,
-      'zipCode': zipCode,
-      'category': category,
-      'tags': tags?.join(','),
-      'isUrgent': isUrgent,
-      // We don't typically serialize full objects back to JSON for API requests, but good for debugging
     };
   }
 }

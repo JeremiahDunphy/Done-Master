@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../shared/models/models.dart';
-import '../../shared/services/api_service.dart';
+import '../../../shared/models/models.dart';
+import '../../../shared/services/api_service.dart';
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});

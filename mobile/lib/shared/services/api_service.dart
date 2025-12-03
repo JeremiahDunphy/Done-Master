@@ -103,7 +103,7 @@ class ApiService {
     required double price,
     required double latitude,
     required double longitude,
-    required int clientId,
+    required int posterId,
     required List<File> photos,
     String? zipCode,
     String? category,
@@ -115,7 +115,7 @@ class ApiService {
     request.fields['title'] = title;
     request.fields['description'] = description;
     request.fields['price'] = price.toString();
-    request.fields['clientId'] = clientId.toString();
+    request.fields['clientId'] = posterId.toString();
     request.fields['zipCode'] = zipCode ?? '';
     request.fields['latitude'] = latitude.toString();
     request.fields['longitude'] = longitude.toString();
@@ -215,11 +215,11 @@ class ApiService {
     await client.post(Uri.parse('$baseUrl/notifications/$id/read'));
   }
 
-  Future<void> applyForJob(int jobId, int providerId) async {
+  Future<void> applyForJob(int jobId, int doerId) async {
     final response = await client.post(
       Uri.parse('$baseUrl/jobs/$jobId/apply'),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'providerId': providerId}),
+      body: jsonEncode({'providerId': doerId}),
     );
     
     if (response.statusCode != 200) {

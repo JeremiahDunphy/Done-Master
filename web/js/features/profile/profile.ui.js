@@ -6,6 +6,7 @@ import { uploadPhoto } from '../../shared/api.js';
 let newProfileImageUrl = null;
 
 export function loadProfile() {
+    console.log('loadProfile called, currentUser:', state.currentUser);
     if (!state.currentUser) return;
 
     document.getElementById('profile-name').textContent = state.currentUser.name || 'User';
@@ -14,7 +15,16 @@ export function loadProfile() {
 
     document.getElementById('profile-bio').value = state.currentUser.bio || '';
     document.getElementById('profile-skills').value = state.currentUser.skills || '';
-    document.getElementById('profile-rate').value = state.currentUser.hourlyRate || '';
+
+    const rateInput = document.getElementById('profile-rate');
+    const rateContainer = rateInput.closest('.form-group'); // Assuming it's in a form-group
+    console.log('Role:', state.currentUser.role, 'Rate Container:', rateContainer);
+    if (state.currentUser.role === 'DOER') {
+        if (rateContainer) rateContainer.style.display = 'block';
+        rateInput.value = state.currentUser.hourlyRate || '';
+    } else { // POSTER
+        if (rateContainer) rateContainer.style.display = 'none';
+    }
 
     if (state.currentUser.profileImage) {
         const img = document.getElementById('profile-image-display');
@@ -35,12 +45,13 @@ export function loadProfile() {
         badgesContainer.innerHTML = '';
     }
 
-    loadUserReviews(state.currentUser.id);
+    return loadUserReviews(state.currentUser.id);
 }
 
-async function loadUserReviews(userId) {
+import { getUserReviews } from '../reviews/reviews.service.js';
+
+export async function loadUserReviews(userId) {
     try {
-        const { getUserReviews } = await import('../reviews/reviews.service.js');
         const reviews = await getUserReviews(userId);
 
         // Calculate average
